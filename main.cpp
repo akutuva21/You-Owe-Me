@@ -1,23 +1,17 @@
 #include <iostream>
-#include <forward_list>
 #include <vector>
 #include <string>
+#include <unordered_map>
 
-class Container // potentially useless, maybe not needed
-{
-    private:
-        unsigned int num_ppl;
-        std::vector<std::string> people;
-    public:
-        Container() {};
-        auto getPeople() { return people; }
-};
+using namespace std;
 
-class AdjacencyList : public Container
+class AdjacencyList
 {
+    typedef std::pair<std::string, double> Edge;
+    
     private:
-        std::vector<std::forward_list<std::pair<std::string, double>>> list; // vector of linked lists containing doubles
-        // Not sure whether this idea is faster/better than just using a map tbh
+        // Achyudan : (people : [("jonathan", 10)])
+        unordered_map<string, vector<Edge*>> list;
     public:
         AdjacencyList() {};
         auto getList() { return list; }
@@ -27,20 +21,10 @@ class AdjacencyList : public Container
 
 double AdjacencyList::getEdge(std::string from, std::string to)
 {
-    auto list = getList();
-    // should generally iterate through each container
-    for (auto iter = list.begin(); iter != list.end(); iter++)
+    vector<Edge*> edges = list[from];
+    for (Edge* edge : edges)
     {
-        if (iter->front().first == from)
-        {
-            for (auto iter2 = iter->begin(); iter2 != iter->end(); iter2++)
-            {
-                if (iter2->first == to)
-                {
-                    return iter2->second;
-                }
-            }
-        }
+        if (edge->first == to) return edge->second;
     }
     return 0;
 }
@@ -48,12 +32,24 @@ double AdjacencyList::getEdge(std::string from, std::string to)
 void AdjacencyList::pushback(std::string from, std::string to, double val)
 {
     // Either appends from at the end of to if to LL exists or creates new linked list, setting to as the head
+    Edge* edge = new Edge(to, val);
+    if (list.find(from) == list.end()) 
+    {
+        vector<Edge*> edges = {edge};
+        list[from] = edges;
+    }
+    else
+    {
+        list[from].push_back(edge);
+    }
 }
 
-class AdjMatrix : public Container
+class AdjMatrix
 {
     private:
         std::vector<std::vector<double>> matrix;
+        int num_ppl = 0;
+        unordered_map<string, int> people;
     public:
         AdjMatrix() {};
         auto getMatrix() { return matrix; }
@@ -63,41 +59,31 @@ class AdjMatrix : public Container
 
 double AdjMatrix::getEdge(std::string from, std::string to)
 {
-    auto m = getMatrix();
-    auto people = getPeople();
-    int from_index, to_index;
-    for (int i = 0; i < people.size(); i++)
-    {
-        if (people[i] == from) from_index = i;
-        if (people[i] == to) to_index = i; 
-    }
-    return m[from_index][to_index];
+    return matrix[people[from]][people[to]];
 }
 
 void AdjMatrix::pushback(std::string from, std::string to, double val)
 {
-    auto m = getMatrix();
-    auto people = getPeople();
-    int from_index, to_index;
-    for (int i = 0; i < people.size(); i++)
+    if (people.find(from) == people.end()) 
     {
-        if (people[i] == from) from_index = i;
-        if (people[i] == to) to_index = i; 
+        people[from] = num_ppl;
+        num_ppl++;
+
+        // create a new column
+        for (vector<double> row : matrix) {
+            row.push_back(0);
+        }
+
+        // create a new row
+        vector<double> new_row(num_ppl, 0);
+        matrix.push_back(new_row);
     }
-    if (m[from_index][to_index])
-    {
-        m[from_index][to_index] += val;
-    }
-    else
-    {
-        // create new person and append to people vector
-        // create new row and/or column (maybe helper function needed)
-    }
+    matrix[people[from]][people[to]] += val;
 }
 
 int main()
 {
-    std::cout << "Hello World" << std::endl;
+    std::cout << "Hello IRS" << std::endl;
     
     // General flow structure
     // need something to read in incoming data as edges and append to list/matrix
