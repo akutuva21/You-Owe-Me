@@ -1,25 +1,29 @@
+// TODO: figure out how to simplify graphs
+
 #include <iostream>
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include <fstream>
 
 using namespace std;
 
 class AdjacencyList
 {
-    typedef std::pair<std::string, double> Edge;
+    typedef pair<string, double> Edge;
     
     private:
-        // Achyudan : (people : [("jonathan", 10)])
+        // Achyudhan : (people : [("jonathan", 10), ("prayuj", 15)])
         unordered_map<string, vector<Edge*>> list;
+        int num_edges = 0;
     public:
         AdjacencyList() {};
         auto getList() { return list; }
-        void pushback(std::string from, std::string to, double val);
-        double getEdge(std::string from, std::string to);
+        void pushback(string from, string to, double val);
+        double getEdge(string from, string to);
 };
 
-double AdjacencyList::getEdge(std::string from, std::string to)
+double AdjacencyList::getEdge(string from, string to)
 {
     vector<Edge*> edges = list[from];
     for (Edge* edge : edges)
@@ -29,7 +33,7 @@ double AdjacencyList::getEdge(std::string from, std::string to)
     return 0;
 }
 
-void AdjacencyList::pushback(std::string from, std::string to, double val)
+void AdjacencyList::pushback(string from, string to, double val)
 {
     // Either appends from at the end of to if to LL exists or creates new linked list, setting to as the head
     Edge* edge = new Edge(to, val);
@@ -42,27 +46,29 @@ void AdjacencyList::pushback(std::string from, std::string to, double val)
     {
         list[from].push_back(edge);
     }
+    num_edges++;
 }
 
 class AdjMatrix
 {
     private:
-        std::vector<std::vector<double>> matrix;
+        vector<vector<double>> matrix;
         int num_ppl = 0;
+        int num_edges = 0;
         unordered_map<string, int> people;
     public:
         AdjMatrix() {};
         auto getMatrix() { return matrix; }
-        void pushback(std::string from, std::string to, double val);
-        double getEdge(std::string from, std::string to);
+        void pushback(string from, string to, double val);
+        double getEdge(string from, string to);
 };
 
-double AdjMatrix::getEdge(std::string from, std::string to)
+double AdjMatrix::getEdge(string from, string to)
 {
     return matrix[people[from]][people[to]];
 }
 
-void AdjMatrix::pushback(std::string from, std::string to, double val)
+void AdjMatrix::pushback(string from, string to, double val)
 {
     if (people.find(from) == people.end()) 
     {
@@ -79,11 +85,44 @@ void AdjMatrix::pushback(std::string from, std::string to, double val)
         matrix.push_back(new_row);
     }
     matrix[people[from]][people[to]] += val;
+    num_edges++;
+}
+
+void menu()
+{
+    int input;
+    cin >> input;
+    switch(input)
+    {
+        case 1:
+            break;
+
+        case 2:
+            break;
+
+        case 3:
+            break;
+
+        case 4:
+            break;
+
+        case 5:
+            break;
+    }
+
+    // vector<pair<string, double>> <- heap (['armando', 50], ['achyudhan', 20])
+    // (1) -> read from text file (import)
+    // (2) -> insert transaction (edge)
+    // (3) -> simplify + print new graph (simplify at end)
+    // (4) -> calls (3), then sorts it to view leaderboards
+    // (5) -> export simplified graph to a text file, launch web browser (maybe)
+    cout << "Hello IRS" << endl;
 }
 
 int main()
 {
-    std::cout << "Hello IRS" << std::endl;
+
+    menu();
     
     // General flow structure
     // need something to read in incoming data as edges and append to list/matrix
