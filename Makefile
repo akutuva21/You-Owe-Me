@@ -2,7 +2,8 @@ CC = g++
 CFLAGS = 
 
 TARGET = main
-SOURCES := $(shell find . -name '*.cpp')
+#SOURCES := main.cpp List.cpp Matrix.cpp
+SOURCES := $(wildcard *.cpp)
 all:
 	$(CC) $(CFLAGS) -o $(TARGET) $(SOURCES)
 clean:
