@@ -1,6 +1,24 @@
 #include "Matrix.h"
+#include "SolveMatrix.h"
 
-double AdjMatrix::getEdge(string from, string to)
+int AdjMatrix::getIndexfromName(string name)
+{
+    return people[name];
+}
+
+string AdjMatrix::getNamefromIndex(int index)
+{
+    for (auto it = people.begin(); it != people.end(); it++)
+    {
+        if (it->second == index)
+        {
+            return it->first;
+        }
+    }
+    return "";
+}
+
+auto AdjMatrix::getEdge(string from, string to)
 {
     return matrix[people[from]][people[to]];
 }
@@ -46,5 +64,29 @@ void AdjMatrix::printMatrix()
 
 void AdjMatrix::simplifyMatrix()
 {
-    
+    cout << "simplifying matrix" << endl;
+    return minCashFlow(*this);
+}
+
+void AdjMatrix::initalizeAmount()
+{
+    amount = vector<double>(num_ppl, 0);
+}
+
+vector<double> AdjMatrix::getAmount()
+{
+    return amount;
+}
+
+void AdjMatrix::setAmount(vector<double> amt)
+{
+    amount = amt;
+}
+
+void AdjMatrix::printAmounts()
+{
+    for (int i = 0; i < amount.size(); i++)
+    {
+        cout << getNamefromIndex(i) << " " << amount[i] << endl;
+    }
 }

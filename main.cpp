@@ -49,6 +49,12 @@ void menu()
     matrix.pushback("bob", "achyudan", 10);
     matrix.pushback("achyudan", "joe", 25);
 
+    //matrix.printMatrix();
+    //list.printList();
+    matrix.initalizeAmount();
+    matrix.simplifyMatrix();
+    // matrix.printAmounts();
+
     // prayuj : -110
     // bob : -10
     // jonathan : 95
