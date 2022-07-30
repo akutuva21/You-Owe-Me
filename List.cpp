@@ -1,4 +1,5 @@
 #include "List.h"
+#include "SolveList.h"
 
 double AdjList::getEdge(string from, string to)
 {
@@ -32,6 +33,8 @@ void AdjList::pushback(string from, string to, double val)
         }
         if (!found) list[from].push_back(edge);
     }
+    people.insert(from); // too lazy to figure this out so appending regardless of whether it's already in there
+    people.insert(to);
     num_edges++;
 }
 
@@ -48,7 +51,40 @@ void AdjList::printList()
     }
 }
 
+void AdjList::initalizeAmount()
+{
+    for (auto iter = people.begin(); iter != people.end(); iter++)
+    {
+        amount[*iter] = 0;
+    }
+}
+
+void AdjList::setAmount(unordered_map<string, double> amount)
+{
+    this->amount = amount;
+}
+
+unordered_map<string, double> AdjList::getAmount()
+{
+    return amount;
+}
+
+void AdjList::printAmounts()
+{
+    for (auto i = amount.begin(); i != amount.end(); i++)
+    {
+        cout << i->first << ": " << i->second << endl;
+    }
+}
+
 void AdjList::simplifyList()
 {
+    cout << "\nsimplifying adjacency list" << endl;
+    initalizeAmount();
+    return minCashFlow(*this);
+}
 
+set<string> AdjList::getPeople()
+{
+    return people;
 }

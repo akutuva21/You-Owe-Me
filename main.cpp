@@ -19,8 +19,8 @@ void test(AdjList& list, AdjMatrix& matrix)
     edges.push_back(make_tuple("prayuj", "achyudhan", 20));
     edges.push_back(make_tuple("achyudhan", "jonathan", 5));
     edges.push_back(make_tuple("prayuj", "jonathan", 100));
-    edges.push_back(make_tuple("bob", "achyudan", 10));
-    edges.push_back(make_tuple("achyudan", "joe", 25));
+    edges.push_back(make_tuple("bob", "achyudhan", 10));
+    edges.push_back(make_tuple("achyudhan", "joe", 25));
 
     for (auto edge : edges)
     {
@@ -58,8 +58,12 @@ void menu()
 
     //matrix.printMatrix();
     //list.printList();
+
     matrix.simplifyMatrix();
-    // matrix.printAmounts();
+    cout << "done" << endl;
+    
+    list.simplifyList();
+    cout << "done" << endl;
 
     // prayuj : -110
     // bob : -10

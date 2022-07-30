@@ -1,0 +1,2 @@
+generatedFile = open('./hugetransactions.txt')
+

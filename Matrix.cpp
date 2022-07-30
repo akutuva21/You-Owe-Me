@@ -8,14 +8,7 @@ int AdjMatrix::getIndexfromName(string name)
 
 string AdjMatrix::getNamefromIndex(int index)
 {
-    for (auto it = people.begin(); it != people.end(); it++)
-    {
-        if (it->second == index)
-        {
-            return it->first;
-        }
-    }
-    return "";
+    return indices[index];
 }
 
 auto AdjMatrix::getEdge(string from, string to)
@@ -33,6 +26,7 @@ void AdjMatrix::pushback(string from, string to, double val)
         if (people.find(person) == people.end()) 
         {
             people[person] = num_ppl;
+            indices[num_ppl] = person;
             num_ppl++;
 
             // create a new column
@@ -64,7 +58,7 @@ void AdjMatrix::printMatrix()
 
 void AdjMatrix::simplifyMatrix()
 {
-    cout << "simplifying matrix" << endl;
+    cout << "\nsimplifying matrix" << endl;
     initalizeAmount();
     return minCashFlow(*this);
 }

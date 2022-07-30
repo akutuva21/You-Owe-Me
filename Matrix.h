@@ -4,7 +4,7 @@
 #include <iostream>
 #pragma once
 
-// TO DO: add a function to track matrix changes for the simplified graph maybe
+// TO DO: add a function to track how much is paid to each (maybe could modify existing graph)
 
 using namespace std;
 
@@ -15,6 +15,7 @@ class AdjMatrix
         int num_ppl = 0;
         int num_edges = 0;
         unordered_map<string, int> people;
+        unordered_map<int, string> indices;
         vector<double> amount; // stores the total balance to be paid by someone
         
     public:
