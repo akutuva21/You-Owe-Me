@@ -65,6 +65,7 @@ void AdjMatrix::printMatrix()
 void AdjMatrix::simplifyMatrix()
 {
     cout << "simplifying matrix" << endl;
+    initalizeAmount();
     return minCashFlow(*this);
 }
 

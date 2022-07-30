@@ -10,6 +10,25 @@
 
 using namespace std;
 
+typedef tuple<string, string, int> edge;
+
+void test(AdjList& list, AdjMatrix& matrix)
+{
+    vector<edge> edges;
+    edges.push_back(make_tuple("jonathan", "prayuj", 10));
+    edges.push_back(make_tuple("prayuj", "achyudhan", 20));
+    edges.push_back(make_tuple("achyudhan", "jonathan", 5));
+    edges.push_back(make_tuple("prayuj", "jonathan", 100));
+    edges.push_back(make_tuple("bob", "achyudan", 10));
+    edges.push_back(make_tuple("achyudan", "joe", 25));
+
+    for (auto edge : edges)
+    {
+        list.pushback(get<0>(edge), get<1>(edge), get<2>(edge));
+        matrix.pushback(get<0>(edge), get<1>(edge), get<2>(edge));
+    }
+}
+
 void menu()
 {
     // int input;
@@ -35,23 +54,10 @@ void menu()
     AdjList list;
     AdjMatrix matrix;
 
-    list.pushback("jonathan", "prayuj", 10);
-    list.pushback("prayuj", "achyudhan", 20);
-    list.pushback("achyudhan", "jonathan", 5);
-    list.pushback("prayuj", "jonathan", 100);
-    list.pushback("bob", "achyudan", 10);
-    list.pushback("achyudan", "joe", 25);
-
-    matrix.pushback("jonathan", "prayuj", 10);
-    matrix.pushback("prayuj", "achyudan", 20);
-    matrix.pushback("achyudan", "jonathan", 5);
-    matrix.pushback("prayuj", "jonathan", 100);
-    matrix.pushback("bob", "achyudan", 10);
-    matrix.pushback("achyudan", "joe", 25);
+    test(list, matrix);
 
     //matrix.printMatrix();
     //list.printList();
-    matrix.initalizeAmount();
     matrix.simplifyMatrix();
     // matrix.printAmounts();
 
