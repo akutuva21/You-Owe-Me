@@ -1,4 +1,5 @@
-// TODO: figure out how to simplify graphs
+/// Largely derived from https://www.geeksforgeeks.org/minimize-cash-flow-among-given-set-friends-borrowed-money/
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -31,8 +32,8 @@ void test()
         list.pushback(get<0>(edge), get<1>(edge), get<2>(edge));
         matrix.pushback(get<0>(edge), get<1>(edge), get<2>(edge));
     }
-    list.simplifyList();
-    list.printEdgesByWeight();
+    matrix.simplifyMatrix();
+    matrix.printSimpleEdges();
 }
 
 void add(string line) {
@@ -43,18 +44,6 @@ void add(string line) {
     pos2 = line.find(" ", pos + 1);
     string to = line.substr(pos + 1, pos2 - pos - 1);
     double amount = stod(line.substr(pos2 + 1));
-
-    // size_t pos;
-    // pos = line.find(" ");
-    // string from = line.substr(0, pos);
-    // line.erase(0, pos + 1);
-    // pos = line.find(" ");
-    // string to = line.substr(0, pos);
-    // line.erase(0, pos + 1);
-    // double amount = stod(line);
-    // cout << "hi" << from << "hi" << endl;
-    // cout << "hi" << to << "hi" << endl;
-    // cout << "hi" << amount << "hi" << endl;
 
     list.pushback(from, to, amount);
     matrix.pushback(from, to, amount);
@@ -78,14 +67,11 @@ int main()
             case 1:
             {
                 string line;
-                ifstream file("./hugetransactions.txt");
+                ifstream file("./smalltransactions.txt");
                 while (getline(file, line)) {
                     add(line);
                 }
                 file.close();
-                //matrix.simplifyMatrix();
-                // list.simplifyList();
-                // list.printEdgesByWeight();
                 cout << "File Read!" << endl;
                 break;
             }
@@ -110,12 +96,14 @@ int main()
             case 3:
             {
                 list.simplifyList();
+                matrix.simplifyMatrix();
                 break;
             }
 
             case 4:
             {
-                list.printEdgesByWeight();
+                // list.printEdgesByWeight();
+                matrix.printSimpleEdges();
                 break;
             }
 

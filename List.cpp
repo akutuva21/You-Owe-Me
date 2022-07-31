@@ -54,23 +54,23 @@ void AdjList::initalizeAmount()
 {
     for (auto iter = people.begin(); iter != people.end(); iter++)
     {
-        amount[*iter] = 0;
+        balances[*iter] = 0;
     }
 }
 
-void AdjList::setAmount(unordered_map<string, double> amount)
+void AdjList::setAmount(unordered_map<string, double> balances)
 {
-    this->amount = amount;
+    this->balances = balances;
 }
 
 unordered_map<string, double> AdjList::getAmount()
 {
-    return amount;
+    return balances;
 }
 
-void AdjList::printAmounts()
+void AdjList::printBalances()
 {
-    for (auto i = amount.begin(); i != amount.end(); i++)
+    for (auto i = balances.begin(); i != balances.end(); i++)
     {
         cout << i->first << ": " << i->second << endl;
     }
@@ -119,7 +119,7 @@ string AdjList::minIndex()
 {
     string min = "";
     double min_val = INT_MAX;
-    for (auto i = amount.begin(); i != amount.end(); i++)
+    for (auto i = balances.begin(); i != balances.end(); i++)
     {
         if (i->second < min_val)
         {
@@ -134,7 +134,7 @@ string AdjList::maxIndex()
 {
     string max = "";
     double max_val = INT_MIN;
-    for (auto i = amount.begin(); i != amount.end(); i++)
+    for (auto i = balances.begin(); i != balances.end(); i++)
     {
         if (i->second > max_val)
         {
@@ -151,58 +151,54 @@ void AdjList::calculateAmount()
     {
         for (auto edge : iter->second)
         {
-            amount[iter->first] -= edge->second; // subtracting from the person who owes money
-            amount[edge->first] += edge->second; // adding to the person who is owed money
+            balances[iter->first] -= edge->second; // subtracting from the person who owes money
+            balances[edge->first] += edge->second; // adding to the person who is owed money
         }
     }
 }
 
 double truncate(double value)
 {
-    return round( value * 1000.0 ) / 1000.0;
+    return round(value * 1000.0) / 1000.0;
 } 
 
-// amount[p] indicates the net amount to be credited/debited to/from person 'p'
-// If amount[p] is positive, then i'th person will amount[i]
-// If amount[p] is negative, then i'th person will give  -amount[i]
+// balances[p] indicates the net balances to be credited/debited to/from person 'p'
+// If balances[p] is positive, then i'th person will balances[i]
+// If balances[p] is negative, then i'th person will give  -balances[i]
 void AdjList::minCashFlowRec()
 {
-    // Find the indexes of minimum and maximum values in amount[]
-    // amount[maxCredit] indicates the maximum amount to be credited
-    // And amount[maxDebit] indicates the maximum amount to be debited
-    // There must be positive and negative values in amount[]
-    // cout << "start1" << endl;
-    string maxCredit = maxIndex();
-    string maxDebit = minIndex();
-    // cout << "start2" << endl;
+    // Find the indexes of minimum and maximum values in balances[]
+    // balances[max_credits] indicates the maximum balances to be credited
+    // And balances[max_debits] indicates the maximum balances to be debited
+    // There must be positive and negative values in balances[]
+    string max_credits = maxIndex();
+    string max_debits = minIndex();
  
     // If both amounts are 0, then all amounts are settled
-    if (truncate(amount[maxCredit]) == 0 && truncate(amount[maxDebit]) == 0)
+    if (truncate(balances[max_credits]) == 0 && truncate(balances[max_debits]) == 0)
     {
         cout << "All amounts are settled" << endl;
         return;
     }
  
-    // cout << "start3" << endl;
     // Determines the sign of how money is transfered
-    double minimum = min(truncate(-amount[maxDebit]), truncate(amount[maxCredit]));
-    // cout << minimum << endl;
-    amount[maxCredit] -= minimum;
-    amount[maxDebit] += minimum;
+    double minimum = min(truncate(-balances[max_debits]), truncate(balances[max_credits]));
+    balances[max_credits] -= minimum;
+    balances[max_debits] += minimum;
      
-    addSimpleEdge(maxDebit, maxCredit, minimum);
+    addSimpleEdge(max_debits, max_credits, minimum);
  
-    // Recursion terminate as either amount[maxCredit] or amount[maxDebit] becomes 0
+    // Recursion terminate as either balances[max_credits] or balances[max_debits] becomes 0
     minCashFlowRec();
 }
  
 // Given a set of persons as graph[] where graph[i][j] indicates
-// the amount that person i needs to pay person j, this function
+// the balances that person i needs to pay person j, this function
 // finds and prints the minimum cash flow to settle all debts.
 void AdjList::minCashFlow()
 {
-    // Calculate the net amount to be paid to person 'p', and
-    // stores it in amount[p]. The value of amount[p] can be
+    // Calculate the net balances to be paid to person 'p', and
+    // stores it in balances[p]. The value of balances[p] can be
     // calculated by subtracting debts of 'p' from credits of 'p'
     // cout << "Totals at Start:" << endl;
     calculateAmount();

@@ -17,7 +17,7 @@ class AdjList
     private:
         // Achyudhan : (people : [("jonathan", 10), ("prayuj", 15)])
         unordered_map<string, vector<Edge*>> list;
-        unordered_map<string, double> amount;
+        unordered_map<string, double> balances;
         int num_edges = 0;
         set<string> people; // assumes all people have different names
         vector<tuple<string, string, double>> simple_edges;
@@ -31,7 +31,7 @@ class AdjList
         void initalizeAmount();
         unordered_map<string, double> getAmount();
         void setAmount(unordered_map<string, double> amount);
-        void printAmounts();
+        void printBalances();
         void simplifyList();
         set<string> getPeople();
         vector<tuple<string, string, double>> getSimpleEdges();

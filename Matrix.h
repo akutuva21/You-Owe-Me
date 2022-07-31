@@ -2,6 +2,7 @@
 #include <vector>
 #include <unordered_map>
 #include <iostream>
+#include <algorithm>
 #pragma once
 
 // TO DO: add a function to track how much is paid to each (maybe could modify existing graph)
@@ -34,4 +35,9 @@ class AdjMatrix
         void printAmounts();
         void addSimpleEdge(int from, int to, double val);
         void printSimpleEdges();
+
+        int minIndex();
+        int maxIndex();
+        void minCashFlowRec();
+        void minCashFlow();
 };
