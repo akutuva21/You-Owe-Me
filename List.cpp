@@ -58,11 +58,6 @@ void AdjList::initializeBalances()
     }
 }
 
-void AdjList::setBalances(unordered_map<string, double> balances)
-{
-    this->balances = balances;
-}
-
 unordered_map<string, double> AdjList::getBalances()
 {
     return balances;
@@ -115,6 +110,27 @@ void AdjList::printEdgesByWeight()
     printSimpleEdges();
 }
 
+void AdjList::printInitialBalances(int k)
+{
+    vector<pair<string, double>> elems(initial_balances.begin(), initial_balances.end());
+    sort(elems.begin(), elems.end(), [](auto const& t1, auto const& t2) {
+        return t1.second > t2.second;
+    }); 
+
+    cout << "These are the top " << k << " people who are owed money:" << endl;
+    for (int i = 0; i < k; i++)
+    {
+        cout << elems[i].first << " is owed $" << elems[i].second << endl;
+    }
+    cout << "\n";
+
+    cout << "These are the top " << k << " people who owe money:" << endl;
+    for (int i = elems.size() - 1; i > elems.size() - 1 - k; i--)
+    {
+        cout << elems[i].first << " owes $" << 0 - elems[i].second << endl;
+    }
+}
+
 string AdjList::minIndex()
 {
     string min = "";
@@ -155,6 +171,7 @@ void AdjList::calculateBalances()
             balances[edge->first] += edge->second; // adding to the person who is owed money
         }
     }
+    initial_balances = balances;
 }
 
 double AdjList::truncate(double val)

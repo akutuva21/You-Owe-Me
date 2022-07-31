@@ -19,27 +19,32 @@ class AdjMatrix
         unordered_map<int, string> indices;
         vector<double> balances; // stores the total balance to be paid by someone
         vector<tuple<string, string, double>> simple_edges;
+        vector<double> initial_balances; // stores the initial total balance to be paid by someone
         
     public:
         AdjMatrix() {};
         auto getMatrix() { return matrix; }
         int getIndexfromName(string name);
         string getNamefromIndex(int index);
-        void pushback(string from, string to, double val);
         auto getEdge(string from, string to);
-        void printMatrix();
-        void simplifyMatrix();
-        void initalizeBalances();
-        void setBalances(vector<double> amt);
-        vector<double> getBalances();
-        void printBalances();
-        void calculateBalances();
+        auto getNumEdges() { return num_edges; }
+
+        void pushback(string from, string to, double val);
         void addSimpleEdge(int from, int to, double val);
+        void simplifyMatrix();
+        
+        void initalizeBalances();
+        void calculateBalances();
+
+        void printMatrix();
+        void printBalances();
+        void printInitialBalances(int top_k);
         void printSimpleEdges();
-        double truncate(double val);
 
         int minIndex();
         int maxIndex();
+        double truncate(double val);
+
         void minCashFlowRec();
         void minCashFlow();
 };

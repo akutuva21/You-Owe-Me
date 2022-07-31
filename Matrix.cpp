@@ -60,9 +60,14 @@ void AdjMatrix::initalizeBalances()
     balances = vector<double>(num_ppl, 0);
 }
 
-vector<double> AdjMatrix::getBalances()
+void AdjMatrix::printInitialBalances(int top_k)
 {
-    return balances;
+    sort(initial_balances.begin(), initial_balances.end());
+    for (int i = 0; i < initial_balances.size(); i++)
+    {
+        cout << initial_balances[i] << " ";
+    }
+    cout << endl;
 }
 
 void AdjMatrix::printBalances()

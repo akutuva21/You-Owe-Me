@@ -37,7 +37,9 @@ void test()
     matrix.printSimpleEdges();
 }
 
-void add(string line) {
+pair<float, float> add(string line) 
+{
+    pair<float, float> times;
     size_t pos;
     size_t pos2;
     pos = line.find(" ");
@@ -46,14 +48,32 @@ void add(string line) {
     string to = line.substr(pos + 1, pos2 - pos - 1);
     double amount = stod(line.substr(pos2 + 1));
 
-    list.pushback(from, to, amount);
+    clock_t t;
+    t = clock();
     matrix.pushback(from, to, amount);
+    t = clock() - t;
+    times.first = ((float) t) / CLOCKS_PER_SEC;
+    t = clock();
+    list.pushback(from, to, amount);
+    t = clock() - t;
+    times.second = ((float) t) / CLOCKS_PER_SEC;
+
+    return times;
+}
+
+double printDensity()
+{
+    int num_people = matrix.getMatrix().size();
+    int num_edges = matrix.getNumEdges();
+
+    return (double)num_edges / (double)((double)num_people * ((double)num_people - 1));
 }
 
 int main()
 {
     string input;
     int inputInt;
+    clock_t t;
     while (1) {
         getline(cin, input);
         try {
@@ -70,14 +90,17 @@ int main()
             {
                 string line;
                 ifstream file("./hugetransactions.txt");
-                auto t = clock();
+                pair<float, float> time_sums;
                 while (getline(file, line)) {
-                    add(line);
+                    auto times = add(line);
+                    time_sums.first += times.first;
+                    time_sums.second += times.second;
                 }
                 file.close();
-                t = clock() - t;
-                printf ("This operation (reading in 100,000 edges and push_back) required %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
-                cout << "File Read!" << endl;
+                cout << "Reading in 100K Edges for Matrix required " << time_sums.first << " seconds." << endl;
+                cout << "Reading in 100K Edges for List required " << time_sums.second << " seconds." << endl;
+                cout << "File Has Been Read!" << endl;
+                cout << "The density of the directed graph is " << printDensity() << endl;
                 break;
             }
             case 2:
@@ -86,16 +109,16 @@ int main()
                 getline(cin, line);
                 while (line != "exit") {
                     try {
-                        auto t = clock();
-                        add(line);
-                        t = clock() - t;
-                        cout << "This operation (push_back) required " << t << " clicks (" << ((float)t)/CLOCKS_PER_SEC << " seconds)." << endl;
+                        pair<float, float> times = add(line);
+                        cout << "\nPushing back the edge for Matrix required " << times.first << " seconds." << endl;
+                        cout << "Pushing back the edge in List required " << times.second << " seconds." << endl;
                     }
                     catch (...) {
                         cout << "error" << endl;
                         continue;
                     }
-                    cout << "added transaction!" << endl;
+                    cout << "Added transaction!\n" << endl;
+                    cout << "The density of the directed graph is " << printDensity() << endl;
                     getline(cin, line);
                 }
                 break;
@@ -104,10 +127,13 @@ int main()
             case 3:
             {   
                 auto t = clock();
-                //list.simplifyList();
+                list.simplifyList();
+                t = clock() - t;
+                cout << "This operation (Simplify List) took " << ((float)t)/CLOCKS_PER_SEC << " seconds." << endl;
+                t = clock();
                 matrix.simplifyMatrix();
                 t = clock() - t;
-                cout << "This operation (simplify) required " << t << " clicks (" << ((float)t)/CLOCKS_PER_SEC << " seconds)." << endl;
+                cout << "This operation (Simplify Matrix) took " << ((float)t)/CLOCKS_PER_SEC << " seconds." << endl;
                 break;
             }
 
@@ -115,16 +141,31 @@ int main()
             {
                 //list.printEdgesByWeight();
                 matrix.printSimpleEdges();
-                cout << "\n\nUnfortunately, no one can be told what the Matrix is. You have to see it for yourself." << endl;
+                cout << "\nUnfortunately, no one can be told what the Matrix is. You have to see it for yourself." << endl;
                 break;
             }
 
             case 5: // view leaderboards
             {
+                int k = 5;
+                list.printInitialBalances(k);
                 break;
             }
 
-            case 6: // kill program
+            case 6:
+            {
+                auto results = list.getSimpleEdges();
+                ofstream file("./exported_data.txt");
+                file << "{";
+                for (auto edge : results) {
+                    file << "[" << get<0>(edge) << ", " << get<1>(edge) << ", " << get<2>(edge) << "]," << endl;
+                }
+                file << "}";
+                file.close();
+                break;
+            }
+
+            case 7: // kill program
             {
                 return 0;
             }
@@ -134,18 +175,19 @@ int main()
                 auto t = clock();
                 test();
                 t = clock() - t;
-                cout << "This operation (test) required " << t << " clicks (" << ((float)t)/CLOCKS_PER_SEC << " seconds)." << endl;
+                cout << "This operation (test) took " << ((float)t)/CLOCKS_PER_SEC << " seconds." << endl;
                 break;
             }
             
             default:
             {
                 cout << "Not a valid option! Try again. " << endl;
-                cout << "(want to insert a related emoji here)" << endl;
                 cout << "You take the blue pill... the story ends, you wake up in your bed and believe whatever you want to believe." << endl;
                 break;
             }
         }
+
+        cout << endl << endl;
     }
     return 0;
 }
