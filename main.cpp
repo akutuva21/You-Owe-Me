@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <fstream>
 #include <algorithm>
+#include <time.h>
 
 #include "List.h"
 #include "Matrix.h"
@@ -69,10 +70,13 @@ int main()
             {
                 string line;
                 ifstream file("./hugetransactions.txt");
+                auto t = clock();
                 while (getline(file, line)) {
                     add(line);
                 }
                 file.close();
+                t = clock() - t;
+                printf ("This operation (reading in 100,000 edges and push_back) required %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
                 cout << "File Read!" << endl;
                 break;
             }
@@ -82,7 +86,10 @@ int main()
                 getline(cin, line);
                 while (line != "exit") {
                     try {
+                        auto t = clock();
                         add(line);
+                        t = clock() - t;
+                        cout << "This operation (push_back) required " << t << " clicks (" << ((float)t)/CLOCKS_PER_SEC << " seconds)." << endl;
                     }
                     catch (...) {
                         cout << "error" << endl;
@@ -95,9 +102,12 @@ int main()
             }
 
             case 3:
-            {
+            {   
+                auto t = clock();
                 //list.simplifyList();
                 matrix.simplifyMatrix();
+                t = clock() - t;
+                cout << "This operation (simplify) required " << t << " clicks (" << ((float)t)/CLOCKS_PER_SEC << " seconds)." << endl;
                 break;
             }
 
@@ -121,7 +131,10 @@ int main()
 
             case 99:
             {
+                auto t = clock();
                 test();
+                t = clock() - t;
+                cout << "This operation (test) required " << t << " clicks (" << ((float)t)/CLOCKS_PER_SEC << " seconds)." << endl;
                 break;
             }
             
