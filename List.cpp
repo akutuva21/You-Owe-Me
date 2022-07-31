@@ -118,7 +118,7 @@ void AdjList::printEdgesByWeight()
 string AdjList::minIndex()
 {
     string min = "";
-    double min_val = 0;
+    double min_val = INT_MAX;
     for (auto i = amount.begin(); i != amount.end(); i++)
     {
         if (i->second < min_val)
@@ -133,7 +133,7 @@ string AdjList::minIndex()
 string AdjList::maxIndex()
 {
     string max = "";
-    double max_val = 0;
+    double max_val = INT_MIN;
     for (auto i = amount.begin(); i != amount.end(); i++)
     {
         if (i->second > max_val)
@@ -142,7 +142,7 @@ string AdjList::maxIndex()
             max_val = i->second;
         }
     }
-    return max;    
+    return max;
 }
 
 void AdjList::calculateAmount()
@@ -156,7 +156,12 @@ void AdjList::calculateAmount()
         }
     }
 }
- 
+
+double truncate(double value)
+{
+    return round( value * 1000.0 ) / 1000.0;
+} 
+
 // amount[p] indicates the net amount to be credited/debited to/from person 'p'
 // If amount[p] is positive, then i'th person will amount[i]
 // If amount[p] is negative, then i'th person will give  -amount[i]
@@ -166,17 +171,22 @@ void AdjList::minCashFlowRec()
     // amount[maxCredit] indicates the maximum amount to be credited
     // And amount[maxDebit] indicates the maximum amount to be debited
     // There must be positive and negative values in amount[]
-    string maxCredit = maxIndex(), maxDebit = minIndex();
+    // cout << "start1" << endl;
+    string maxCredit = maxIndex();
+    string maxDebit = minIndex();
+    // cout << "start2" << endl;
  
     // If both amounts are 0, then all amounts are settled
-    if (amount[maxCredit] == 0 && amount[maxDebit] == 0)
+    if (truncate(amount[maxCredit]) == 0 && truncate(amount[maxDebit]) == 0)
     {
         cout << "All amounts are settled" << endl;
         return;
     }
  
+    // cout << "start3" << endl;
     // Determines the sign of how money is transfered
-    double minimum = min(-amount[maxDebit], amount[maxCredit]);
+    double minimum = min(truncate(-amount[maxDebit]), truncate(amount[maxCredit]));
+    // cout << minimum << endl;
     amount[maxCredit] -= minimum;
     amount[maxDebit] += minimum;
      
@@ -199,4 +209,15 @@ void AdjList::minCashFlow()
     // printAmounts(); // prints out all the amounts
     // cout << "\n" << endl;
     minCashFlowRec();
+}
+
+AdjList::~AdjList()
+{
+    for (auto i = list.begin(); i != list.end(); i++)
+    {
+        for (Edge* edge : i->second)
+        {
+            delete edge;
+        }
+    } 
 }

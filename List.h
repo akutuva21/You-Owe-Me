@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <set>
 #include <algorithm>
+#include <cmath>
+#include <climits>
 #pragma once
 
 using namespace std;
@@ -21,6 +23,7 @@ class AdjList
         vector<tuple<string, string, double>> simple_edges;
     public:
         AdjList() {};
+        ~AdjList();
         auto getList() { return list; }
         void pushback(string from, string to, double val);
         double getEdge(string from, string to);

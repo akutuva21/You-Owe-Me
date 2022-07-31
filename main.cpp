@@ -43,7 +43,6 @@ void add(string line) {
     pos2 = line.find(" ", pos + 1);
     string to = line.substr(pos + 1, pos2 - pos - 1);
     double amount = stod(line.substr(pos2 + 1));
-    cout << from << ", " << to << ": " << amount << endl;
 
     // size_t pos;
     // pos = line.find(" ");

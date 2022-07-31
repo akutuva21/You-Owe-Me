@@ -1,5 +1,0 @@
-make --dry-run --keep-going --print-directory
-make: Entering directory '/home/prayuj/College/COP3530/You-Owe-Me'
-g++  -o main ./main.cpp
-make: Leaving directory '/home/prayuj/College/COP3530/You-Owe-Me'
- 
