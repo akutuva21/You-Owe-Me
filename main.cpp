@@ -60,10 +60,10 @@ void menu()
     //list.printList();
 
     matrix.simplifyMatrix();
-    cout << "done" << endl;
+    matrix.printSimpleEdges();
     
     list.simplifyList();
-    cout << "done" << endl;
+    list.printSimpleEdges();
 
     // prayuj : -110
     // bob : -10

@@ -17,6 +17,7 @@ class AdjMatrix
         unordered_map<string, int> people;
         unordered_map<int, string> indices;
         vector<double> amount; // stores the total balance to be paid by someone
+        vector<tuple<string, string, double>> simple_edges;
         
     public:
         AdjMatrix() {};
@@ -31,4 +32,6 @@ class AdjMatrix
         void setAmount(vector<double> amt);
         vector<double> getAmount();
         void printAmounts();
+        void addSimpleEdge(int from, int to, double val);
+        void printSimpleEdges();
 };

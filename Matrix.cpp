@@ -82,6 +82,19 @@ void AdjMatrix::printAmounts()
 {
     for (int i = 0; i < amount.size(); i++)
     {
-        cout << getNamefromIndex(i) << " " << amount[i] << endl;
+        cout << getNamefromIndex(i) << ": " << amount[i] << endl;
+    }
+}
+
+void AdjMatrix::addSimpleEdge(int from, int to, double val)
+{
+    simple_edges.push_back(make_tuple(getNamefromIndex(from), getNamefromIndex(to), val));
+}
+
+void AdjMatrix::printSimpleEdges()
+{
+    for (auto i = simple_edges.begin(); i != simple_edges.end(); i++)
+    {
+        cout << get<0>(*i) << " pays " << get<2>(*i) << " to " << get<1>(*i) << endl;
     }
 }

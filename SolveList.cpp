@@ -50,7 +50,7 @@ unordered_map<string, double> calculateAmount(AdjList adjlist)
 // amount[p] indicates the net amount to be credited/debited to/from person 'p'
 // If amount[p] is positive, then i'th person will amount[i]
 // If amount[p] is negative, then i'th person will give  -amount[i]
-void minCashFlowRec(AdjList list, unordered_map<string, double> amount)
+void minCashFlowRec(AdjList& list, unordered_map<string, double> amount)
 {
     // Find the indexes of minimum and maximum values in amount[]
     // amount[maxCredit] indicates the maximum amount to be credited
@@ -70,10 +70,8 @@ void minCashFlowRec(AdjList list, unordered_map<string, double> amount)
     int minimum = min(-amount[maxDebit], amount[maxCredit]);
     amount[maxCredit] -= minimum;
     amount[maxDebit] += minimum;
- 
-    // Prints who pays who
-    cout << maxDebit << " pays " << minimum
-         << " to " << maxCredit << endl;
+     
+    list.addSimpleEdge(maxDebit, maxCredit, minimum);
  
     // Recursion terminate as either amount[maxCredit] or amount[maxDebit] becomes 0
     minCashFlowRec(list, amount);
@@ -82,7 +80,7 @@ void minCashFlowRec(AdjList list, unordered_map<string, double> amount)
 // Given a set of persons as graph[] where graph[i][j] indicates
 // the amount that person i needs to pay person j, this function
 // finds and prints the minimum cash flow to settle all debts.
-void minCashFlow(AdjList list)
+void minCashFlow(AdjList& list)
 {
     // Calculate the net amount to be paid to person 'p', and
     // stores it in amount[p]. The value of amount[p] can be

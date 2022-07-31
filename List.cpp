@@ -88,3 +88,16 @@ set<string> AdjList::getPeople()
 {
     return people;
 }
+
+void AdjList::addSimpleEdge(string from, string to, double val)
+{
+    simple_edges.push_back(make_tuple(from, to, val));
+}
+
+void AdjList::printSimpleEdges()
+{
+    for (auto i = simple_edges.begin(); i != simple_edges.end(); i++)
+    {
+        cout << get<0>(*i) << " pays " << get<2>(*i) << " to " << get<1>(*i) << endl;
+    }
+}

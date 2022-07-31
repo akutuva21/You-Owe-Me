@@ -31,4 +31,6 @@ class AdjList
         void simplifyList();
         set<string> getPeople();
         vector<tuple<string, string, double>> getSimpleEdges();
+        void addSimpleEdge(string from, string to, double val);
+        void printSimpleEdges();
 };
