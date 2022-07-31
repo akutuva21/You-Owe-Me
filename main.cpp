@@ -12,59 +12,72 @@ using namespace std;
 
 typedef tuple<string, string, int> edge;
 
-void test(AdjList& list, AdjMatrix& matrix)
-{
-    vector<edge> edges;
-    edges.push_back(make_tuple("jonathan", "prayuj", 10));
-    edges.push_back(make_tuple("prayuj", "achyudhan", 20));
-    edges.push_back(make_tuple("achyudhan", "jonathan", 5));
-    edges.push_back(make_tuple("prayuj", "jonathan", 100));
-    edges.push_back(make_tuple("bob", "achyudhan", 10));
-    edges.push_back(make_tuple("achyudhan", "joe", 25));
+// void test(AdjList& list, AdjMatrix& matrix)
+// {
+//     vector<edge> edges;
+//     edges.push_back(make_tuple("jonathan", "prayuj", 10));
+//     edges.push_back(make_tuple("prayuj", "achyudhan", 20));
+//     edges.push_back(make_tuple("achyudhan", "jonathan", 5));
+//     edges.push_back(make_tuple("prayuj", "jonathan", 100));
+//     edges.push_back(make_tuple("bob", "achyudhan", 10));
+//     edges.push_back(make_tuple("achyudhan", "joe", 25));
 
-    for (auto edge : edges)
-    {
-        list.pushback(get<0>(edge), get<1>(edge), get<2>(edge));
-        matrix.pushback(get<0>(edge), get<1>(edge), get<2>(edge));
-    }
-}
+//     for (auto edge : edges)
+//     {
+//         list.pushback(get<0>(edge), get<1>(edge), get<2>(edge));
+//         matrix.pushback(get<0>(edge), get<1>(edge), get<2>(edge));
+//     }
+// }
 
 void menu()
 {
-    // int input;
-    // cin >> input;
-    // switch(input)
-    // {
-    //     case 1:
-    //         break;
-
-    //     case 2:
-    //         break;
-
-    //     case 3:
-    //         break;
-
-    //     case 4:
-    //         break;
-
-    //     case 5:
-    //         break;
-    // }
 
     AdjList list;
     AdjMatrix matrix;
 
-    test(list, matrix);
+    int input;
+    cin >> input;
+    switch(input)
+    {
+        case 1:
+        {
+            string line;
+            ifstream file("./hugetransactions.txt");
+            while (getline(file, line)) {
+                size_t pos;
+                pos = line.find(' ');
+                string from = line.substr(0, pos);
+                line.erase(0, pos + 1);
+                pos = line.find(' ');
+                string to = line.substr(0, pos);
+                line.erase(0, pos + 1);
+                double amount = stod(line);
+                list.pushback(from, to, amount);
+                matrix.pushback(from, to, amount);
+            }
+            file.close();
+            break;
+        }
+        case 2:
+        {
+            break;
+        }
 
-    //matrix.printMatrix();
-    //list.printList();
+        case 3:
+        {
+            break;
+        }
 
-    matrix.simplifyMatrix();
-    matrix.printSimpleEdges();
-    
-    list.simplifyList();
-    list.printSimpleEdges();
+        case 4:
+        {
+            break;
+        }
 
+        case 5:
+        {
+            break;
+        }
+    }
     // prayuj : -110
     // bob : -10
     // jonathan : 95
@@ -81,7 +94,6 @@ void menu()
     // (3) -> simplify + print new graph (simplify at end)
     // (4) -> calls (3), then sorts it to view leaderboards
     // (5) -> export simplified graph to a text file, launch web browser (maybe)
-    // cout << "Hello IRS" << endl;
 }
 
 int main()
