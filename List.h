@@ -3,6 +3,7 @@
 #include <iostream>
 #include <unordered_map>
 #include <set>
+#include <algorithm>
 #pragma once
 
 using namespace std;
@@ -33,4 +34,11 @@ class AdjList
         vector<tuple<string, string, double>> getSimpleEdges();
         void addSimpleEdge(string from, string to, double val);
         void printSimpleEdges();
+        void printEdgesByWeight();
+        string minIndex();
+        string maxIndex();
+
+        void calculateAmount();
+        void minCashFlowRec();
+        void minCashFlow();
 };

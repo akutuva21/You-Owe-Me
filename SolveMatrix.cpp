@@ -60,9 +60,9 @@ void minCashFlow(AdjMatrix& matrix)
         for (int i = 0; i < N; i++)
             amount[p] += (graph[i][p] -  graph[p][i]);
  
-    cout << "Totals at Start:" << endl;
+    // cout << "Totals at Start:" << endl;
     matrix.setAmount(amount);
-    matrix.printAmounts();
-    cout << "\n" << endl;
+    // matrix.printAmounts();
+    // cout << "\n" << endl;
     return minCashFlowRec(matrix, amount);
 }
