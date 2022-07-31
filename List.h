@@ -28,9 +28,9 @@ class AdjList
         void pushback(string from, string to, double val);
         double getEdge(string from, string to);
         void printList();
-        void initalizeAmount();
-        unordered_map<string, double> getAmount();
-        void setAmount(unordered_map<string, double> amount);
+        void initializeBalances();
+        unordered_map<string, double> getBalances();
+        void setBalances(unordered_map<string, double> balances);
         void printBalances();
         void simplifyList();
         set<string> getPeople();
@@ -40,8 +40,9 @@ class AdjList
         void printEdgesByWeight();
         string minIndex();
         string maxIndex();
+        double truncate(double val);
 
-        void calculateAmount();
+        void calculateBalances();
         void minCashFlowRec();
         void minCashFlow();
 };

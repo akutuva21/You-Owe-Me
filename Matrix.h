@@ -17,7 +17,7 @@ class AdjMatrix
         int num_edges = 0;
         unordered_map<string, int> people;
         unordered_map<int, string> indices;
-        vector<double> amount; // stores the total balance to be paid by someone
+        vector<double> balances; // stores the total balance to be paid by someone
         vector<tuple<string, string, double>> simple_edges;
         
     public:
@@ -29,12 +29,14 @@ class AdjMatrix
         auto getEdge(string from, string to);
         void printMatrix();
         void simplifyMatrix();
-        void initalizeAmount();
-        void setAmount(vector<double> amt);
-        vector<double> getAmount();
-        void printAmounts();
+        void initalizeBalances();
+        void setBalances(vector<double> amt);
+        vector<double> getBalances();
+        void printBalances();
+        void calculateBalances();
         void addSimpleEdge(int from, int to, double val);
         void printSimpleEdges();
+        double truncate(double val);
 
         int minIndex();
         int maxIndex();

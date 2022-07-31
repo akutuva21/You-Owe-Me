@@ -1,5 +1,4 @@
 #include "Matrix.h"
-#include "SolveMatrix.h"
 
 int AdjMatrix::getIndexfromName(string name)
 {
@@ -56,29 +55,30 @@ void AdjMatrix::printMatrix()
     }
 }
 
+void AdjMatrix::initalizeBalances()
+{
+    balances = vector<double>(num_ppl, 0);
+}
+
+vector<double> AdjMatrix::getBalances()
+{
+    return balances;
+}
+
+void AdjMatrix::printBalances()
+{
+    for (int i = 0; i < balances.size(); i++)
+    {
+        cout << getNamefromIndex(i) << ": " << balances[i] << endl;
+    }
+}
+
 void AdjMatrix::simplifyMatrix()
 {
-    cout << "\nsimplifying matrix" << endl;
-    initalizeAmount();
-    return minCashFlow(*this);
-}
-
-void AdjMatrix::initalizeAmount()
-{
-    amount = vector<double>(num_ppl, 0);
-}
-
-vector<double> AdjMatrix::getAmount()
-{
-    return amount;
-}
-
-void AdjMatrix::printAmounts()
-{
-    for (int i = 0; i < amount.size(); i++)
-    {
-        cout << getNamefromIndex(i) << ": " << amount[i] << endl;
-    }
+    cout << "\nSimplifying Matrix..." << endl;
+    cout << "Goodbye, Mr. Anderson...\n" << endl;
+    initalizeBalances();
+    minCashFlow();
 }
 
 void AdjMatrix::addSimpleEdge(int from, int to, double val)
@@ -96,14 +96,43 @@ void AdjMatrix::printSimpleEdges()
 
 int AdjMatrix::minIndex()
 {
-    int min_index = min_element(amount.begin(),amount.end()) - amount.begin();
-    return min_index;
+    int min = 0;
+    for (int i = 1; i < balances.size(); i++)
+    {
+        if (balances[i] < balances[min])
+        {
+            min = i;
+        }
+    }
+    return min;
 }
  
 int AdjMatrix::maxIndex()
 {
-    int max_index = max_element(amount.begin(),amount.end()) - amount.begin();
-    return max_index;
+    int max = 0;
+    for (int i = 1; i < balances.size(); i++)
+    {
+        if (balances[i] > balances[max])
+        {
+            max = i;
+        }
+    }
+    return max;
+}
+
+void AdjMatrix::calculateBalances()
+{
+    // Calculate the net amount to be paid to person 'p', and
+    // stores it in amount[p]. The value of amount[p] can be
+    // calculated by subtracting debts of 'p' from credits of 'p'
+    for (int p = 0; p < matrix.size(); p++)
+        for (int i = 0; i < matrix.size(); i++)
+            balances[p] += (matrix[i][p] -  matrix[p][i]);
+}
+
+double AdjMatrix::truncate(double val)
+{
+    return (int)(val * 100) / 100.0;
 }
  
 // amount[p] indicates the net amount to be credited/debited to/from person 'p'
@@ -111,23 +140,29 @@ int AdjMatrix::maxIndex()
 // If amount[p] is negative, then i'th person will give  -amount[i]
 void AdjMatrix::minCashFlowRec()
 {
+    double minimum = -1;
     // Find the indexes of minimum and maximum values in amount[]
     // amount[maxCredit] indicates the maximum amount to be credited
     // And amount[maxDebit] indicates the maximum amount to be debited
     // There must be positive and negative values in amount[]
     int maxCredit = maxIndex(), maxDebit = minIndex();
  
+    // truncates the value of amount[maxCredit] and amount[maxDebit] to 2 decimal places
+    balances[maxCredit] = truncate(balances[maxCredit]);
+    balances[maxDebit] = truncate(balances[maxDebit]);
+    
     // If both amounts are 0, then all amounts are settled
-    if (amount[maxCredit] == 0 && amount[maxDebit] == 0)
+    minimum = min(truncate(-balances[maxDebit]), truncate(balances[maxCredit]));
+    if ((balances[maxCredit] == 0 && balances[maxDebit] == 0) || (minimum == 0))
     {
         cout << "All amounts are settled" << endl;
+        cout << "There is no spoon...\n" << endl;
         return;
     }
  
     // Determines the sign of how money is transfered
-    int minimum = min(-amount[maxDebit], amount[maxCredit]);
-    amount[maxCredit] -= minimum;
-    amount[maxDebit] += minimum;
+    balances[maxCredit] -= minimum;
+    balances[maxDebit] += minimum;
     addSimpleEdge(maxDebit, maxCredit, minimum);
  
     // Recursion terminate as either amount[maxCredit] or amount[maxDebit] becomes 0
@@ -138,19 +173,10 @@ void AdjMatrix::minCashFlowRec()
 // the amount that person i needs to pay person j, this function
 // finds and prints the minimum cash flow to settle all debts.
 void AdjMatrix::minCashFlow()
-{
-    // Create an array amount[], initialize all value in it as 0.
-    int size = matrix.size();
- 
-    // Calculate the net amount to be paid to person 'p', and
-    // stores it in amount[p]. The value of amount[p] can be
-    // calculated by subtracting debts of 'p' from credits of 'p'
-    for (int p = 0; p < matrix.size(); p++)
-        for (int i = 0; i < matrix.size(); i++)
-            amount[p] += (matrix[i][p] -  matrix[p][i]);
- 
+{ 
     // cout << "Totals at Start:" << endl;
     // matrix.printAmounts();
     // cout << "\n" << endl;
-    return minCashFlowRec();
+    calculateBalances();
+    minCashFlowRec();
 }

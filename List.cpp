@@ -50,7 +50,7 @@ void AdjList::printList()
     }
 }
 
-void AdjList::initalizeAmount()
+void AdjList::initializeBalances()
 {
     for (auto iter = people.begin(); iter != people.end(); iter++)
     {
@@ -58,12 +58,12 @@ void AdjList::initalizeAmount()
     }
 }
 
-void AdjList::setAmount(unordered_map<string, double> balances)
+void AdjList::setBalances(unordered_map<string, double> balances)
 {
     this->balances = balances;
 }
 
-unordered_map<string, double> AdjList::getAmount()
+unordered_map<string, double> AdjList::getBalances()
 {
     return balances;
 }
@@ -79,7 +79,7 @@ void AdjList::printBalances()
 void AdjList::simplifyList()
 {
     cout << "simplifying adjacency list" << endl;
-    initalizeAmount();
+    initializeBalances();
     minCashFlow();
 }
 
@@ -145,7 +145,7 @@ string AdjList::maxIndex()
     return max;
 }
 
-void AdjList::calculateAmount()
+void AdjList::calculateBalances()
 {
     for (auto iter = list.begin(); iter != list.end(); iter++)
     {
@@ -157,16 +157,17 @@ void AdjList::calculateAmount()
     }
 }
 
-double truncate(double value)
+double AdjList::truncate(double val)
 {
-    return round(value * 1000.0) / 1000.0;
-} 
+    return (int)(val * 100) / 100.0;
+}
 
 // balances[p] indicates the net balances to be credited/debited to/from person 'p'
 // If balances[p] is positive, then i'th person will balances[i]
 // If balances[p] is negative, then i'th person will give  -balances[i]
 void AdjList::minCashFlowRec()
 {
+    double minimum = -1;
     // Find the indexes of minimum and maximum values in balances[]
     // balances[max_credits] indicates the maximum balances to be credited
     // And balances[max_debits] indicates the maximum balances to be debited
@@ -175,14 +176,17 @@ void AdjList::minCashFlowRec()
     string max_debits = minIndex();
  
     // If both amounts are 0, then all amounts are settled
-    if (truncate(balances[max_credits]) == 0 && truncate(balances[max_debits]) == 0)
+    balances[max_credits] = truncate(balances[max_credits]);
+    balances[max_debits] = truncate(balances[max_debits]);
+
+    minimum = min(-balances[max_debits], balances[max_credits]);
+    if ((balances[max_credits] == 0 && balances[max_debits] == 0) || (minimum == 0))
     {
         cout << "All amounts are settled" << endl;
         return;
     }
  
     // Determines the sign of how money is transfered
-    double minimum = min(truncate(-balances[max_debits]), truncate(balances[max_credits]));
     balances[max_credits] -= minimum;
     balances[max_debits] += minimum;
      
@@ -201,7 +205,7 @@ void AdjList::minCashFlow()
     // stores it in balances[p]. The value of balances[p] can be
     // calculated by subtracting debts of 'p' from credits of 'p'
     // cout << "Totals at Start:" << endl;
-    calculateAmount();
+    calculateBalances();
     // printAmounts(); // prints out all the amounts
     // cout << "\n" << endl;
     minCashFlowRec();

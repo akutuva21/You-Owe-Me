@@ -59,7 +59,8 @@ int main()
             inputInt = stoi(input);
         }
         catch (...) {
-            cout << "not a valid option!" << endl;
+            cout << "Not a valid option! Try again." << endl;
+            cout << "You take the red pill... you stay in Wonderland, and I show you how deep the rabbit hole goes." << endl;
             continue;
         }
         switch(inputInt)
@@ -67,7 +68,7 @@ int main()
             case 1:
             {
                 string line;
-                ifstream file("./smalltransactions.txt");
+                ifstream file("./hugetransactions.txt");
                 while (getline(file, line)) {
                     add(line);
                 }
@@ -95,24 +96,25 @@ int main()
 
             case 3:
             {
-                list.simplifyList();
+                //list.simplifyList();
                 matrix.simplifyMatrix();
                 break;
             }
 
             case 4:
             {
-                // list.printEdgesByWeight();
+                //list.printEdgesByWeight();
                 matrix.printSimpleEdges();
+                cout << "\n\nUnfortunately, no one can be told what the Matrix is. You have to see it for yourself." << endl;
                 break;
             }
 
-            case 5:
+            case 5: // view leaderboards
             {
                 break;
             }
 
-            case 6:
+            case 6: // kill program
             {
                 return 0;
             }
@@ -125,7 +127,9 @@ int main()
             
             default:
             {
-                cout << "not a valid option!" << endl;
+                cout << "Not a valid option! Try again. " << endl;
+                cout << "(want to insert a related emoji here)" << endl;
+                cout << "You take the blue pill... the story ends, you wake up in your bed and believe whatever you want to believe." << endl;
                 break;
             }
         }
