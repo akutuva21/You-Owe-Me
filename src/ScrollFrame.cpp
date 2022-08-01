@@ -8,7 +8,7 @@ ScrollFrame::ScrollFrame() {}
 
 ScrollFrame::ScrollFrame(float w, float h, vector<TextBox> &obj)
 {
-    font.loadFromFile("../assets/fonts/Segoe_UI.ttf");
+    font.loadFromFile("./assets/fonts/Segoe_UI.ttf");
     width = w;
     height = h;
     mouseDown = false;

@@ -7,7 +7,7 @@ void GenerateInterface()
 {
     // Load Font
     sf::Font font;
-    font.loadFromFile("../assets/fonts/Segoe_UI.ttf");
+    font.loadFromFile("./assets/fonts/Segoe_UI.ttf");
     // Creates window object
     Interface window(WINDOW_WIDTH, WINDOW_HEIGHT, "You Owe Me");
     // All objects within the window
@@ -26,11 +26,7 @@ void GenerateInterface()
     window.AddTextBox("ImportButton", make_pair(0.9, 0.2), make_pair(0.082, 0.075), "Import", font, 3, false, true);
     // Insert Edges
     window.AddTextBox("AddButton", make_pair(0.9, 0.35), make_pair(0.082, 0.075), " Insert", font, 3, false, true);
-<<<<<<< HEAD
-    window.AddTextBox("AddEdgeTitle", make_pair(0.05, 0.35), make_pair(0.4, 0.075), "Add a New Transaction:", font);
-=======
     window.AddTextBox("AddEdgeTitle", make_pair(0.05, 0.35), make_pair(0.3, 0.075), "Add a New Transaction:", font);
->>>>>>> sfml
     window.AddTextBox("AddEdge1", make_pair(0.355, 0.35), make_pair(0.15, 0.075), "", font, 3);
     window.AddTextBox("AddEdge2", make_pair(0.565, 0.35), make_pair(0.15, 0.075), "", font, 3);
     window.AddTextBox("AddEdgeAmount", make_pair(0.775, 0.35), make_pair(0.1, 0.075), "", font, 3);

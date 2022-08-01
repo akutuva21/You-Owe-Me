@@ -140,17 +140,17 @@ void Interface::GenerateWindow()
                             if (item.first == "LeaderboardButton")
                             {
                                 int k = 5;
-                                vector<pair<string, double>> leaderboards = list.getBalances();
+                                vector<pair<string, double>> leaderboards = list.getLeaderboards();
                                 frame.newRow("These are the top " + to_string(k) + " people who are owed money:");
                                 for (int i = 0; i < k; i++)
                                 {
-                                    frame.newRow(to_string(leaderboards[i].first) + " is owed $" + to_string(leaderboards[i].second));
+                                    frame.newRow(leaderboards[i].first + " is owed $" + to_string(leaderboards[i].second));
                                 }
 
                                 frame.newRow("These are the top " + to_string(k) + " people who owe money:");
                                 for (int i = leaderboards.size() - 1; i > leaderboards.size() - 1 - k; i--)
                                 {
-                                    frame.newRow(to_string(leaderboards[i].first) + " owes $" + to_string(0 - leaderboards[i].second));
+                                    frame.newRow(leaderboards[i].first + " owes $" + to_string(0 - leaderboards[i].second));
                                 }
                             }
 
@@ -175,6 +175,7 @@ void Interface::GenerateWindow()
             }
             // Text Box Input
             if (event.type == sf::Event::TextEntered)
+            {
                 for (auto &item : textBoxes)
                 {
                     if (textBoxes[item.first].getEditable() && textBoxes[item.first].getClicked())
@@ -240,7 +241,7 @@ void Interface::AddSprite(string name, string imageName, pair<double, double> po
         newSprite.setPosition(posScaleXY.first * width - spriteWidth / 2, posScaleXY.second * height - spriteHeight / 2);
         sprites[name] = newSprite;
     }
-};
+}
 
 // adds components of textbox
 void Interface::AddTextBox(string name, pair<double, double> posScaleXY, pair<double, double> sizeScaleXY, string message, const sf::Font &font, int outline, bool editable, bool isB)
