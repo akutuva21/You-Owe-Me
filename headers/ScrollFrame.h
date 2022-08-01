@@ -25,7 +25,7 @@ public:
     sf::RectangleShape getScrollBar();
     vector<TextBox> &getRows();
     bool getMouseDown();
-    void setScrollBar();
+    float setScrollBar();
     void setMouseDown(bool tf);
     void setRow(float ratio);
     void newRow(string s);

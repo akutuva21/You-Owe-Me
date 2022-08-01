@@ -39,11 +39,12 @@ vector<TextBox> &ScrollFrame::getRows()
     return rows;
 }
 
-void ScrollFrame::setScrollBar()
+float ScrollFrame::setScrollBar()
 {
     int frameSize = rows.size() * 40;
     if (frameSize >= 300)
         scrollBar.setSize(sf::Vector2f(20, 300 * 300 / frameSize));
+    return 300 * 300 / frameSize;
 }
 
 void ScrollFrame::setMouseDown(bool tf)
@@ -52,11 +53,12 @@ void ScrollFrame::setMouseDown(bool tf)
 }
 void ScrollFrame::Scroll(sf::Vector2f worldPos)
 {
+    float sb = setScrollBar();
     float yPos = worldPos.y;
     if (yPos < 550)
         yPos = 550;
-    if (yPos > 850)
-        yPos = 850;
+    if (yPos > 900 - sb)
+        yPos = 900 - sb;
     float scrollRatio = (yPos - 550.0f) / 300.0f;
     scrollBar.setPosition(scrollBar.getPosition().x, yPos);
     setRow(scrollRatio);

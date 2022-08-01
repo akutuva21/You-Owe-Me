@@ -5,10 +5,7 @@
 #include <string>
 #include <fstream>
 #include <ctime>
-
-#include "../headers/Interface.h"
-
-// creates window object
+#include <cmath>
 
 AdjList list;
 AdjMatrix matrix;
@@ -51,7 +48,7 @@ Interface::Interface(int width, int height, string title)
     this->width = width;
     window.create(sf::VideoMode(width, height), title);
     vector<TextBox> scrollTextBoxes;
-    frame = ScrollFrame(width, 100000, scrollTextBoxes);
+    frame = ScrollFrame(width, 10000, scrollTextBoxes);
 }
 
 // run window loop
@@ -72,6 +69,10 @@ void Interface::GenerateWindow()
             {
                 if (frame.getScrollBar().getGlobalBounds().contains(worldPos))
                     frame.setMouseDown(true);
+            }
+            if (event.type == sf::Event::MouseWheelScrolled)
+            {
+                frame.setMouseDown(true);
             }
             if (event.type == sf::Event::MouseButtonReleased)
                 frame.setMouseDown(false);
@@ -142,15 +143,23 @@ void Interface::GenerateWindow()
                                 int k = 5;
                                 vector<pair<string, double>> leaderboards = list.getLeaderboards();
                                 frame.newRow("These are the top " + to_string(k) + " people who are owed money:");
-                                for (int i = 0; i < k; i++)
+                                for (int i = 0; i < min(k, (int)leaderboards.size()); i++)
                                 {
-                                    frame.newRow(leaderboards[i].first + " is owed $" + to_string(leaderboards[i].second));
+                                    if (leaderboards[i].second > 0)
+                                    {
+                                        string amount = to_string(leaderboards[i].second);
+                                        frame.newRow(leaderboards[i].first + " is owed $" + amount.substr(0, amount.find(".") + 3) + ".");
+                                    }
                                 }
 
                                 frame.newRow("These are the top " + to_string(k) + " people who owe money:");
-                                for (int i = leaderboards.size() - 1; i > leaderboards.size() - 1 - k; i--)
+                                for (int i = leaderboards.size() - 1; i > max((int)leaderboards.size() - 1 - k, -1); i--)
                                 {
-                                    frame.newRow(leaderboards[i].first + " owes $" + to_string(0 - leaderboards[i].second));
+                                    if (leaderboards[i].second < 0)
+                                    {
+                                        string amount = to_string(0 - leaderboards[i].second);
+                                        frame.newRow(leaderboards[i].first + " owes $" + amount.substr(0, amount.find(".") + 3) + ".");
+                                    }
                                 }
                             }
 
@@ -161,6 +170,8 @@ void Interface::GenerateWindow()
                                 for (auto edge : results)
                                 {
                                     file << "[\"" << get<0>(edge) << "\", \"" << get<1>(edge) << "\", " << get<2>(edge) << "]" << endl;
+                                    string amount = to_string(get<2>(edge));
+                                    frame.newRow(get<0>(edge) + " pays " + get<1>(edge) + " $" + amount.substr(0, amount.find(".") + 3));
                                 }
 
                                 file.close();
@@ -197,7 +208,6 @@ void Interface::GenerateWindow()
             if (frame.getMouseDown())
             {
                 frame.Scroll(worldPos);
-                frame.getScrollBar();
             }
             window.clear(sf::Color(255, 255, 255, 255));
             DrawObjects();
