@@ -82,14 +82,3 @@ void ScrollFrame::newRow(string s)
     TextBox text(make_pair(50, 550 + rows.size() * 40), make_pair(750, 30), s, font, 3);
     rows.push_back(text);
 }
-
-/*
-    size_t pos;
-    size_t pos2;
-    pos = line.find(" ");
-    string from = line.substr(0, pos);
-    pos2 = line.find(" ", pos + 1);
-    string to = line.substr(pos + 1, pos2 - pos - 1);
-    double amount = stod(line.substr(pos2 + 1));
-
-*/

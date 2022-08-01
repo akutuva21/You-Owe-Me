@@ -82,13 +82,14 @@ void AdjList::printBalances()
 // driver code to conduct the simplification of the Adjacency List
 void AdjList::simplifyList()
 {
-    cout << "simplifying adjacency list" << endl;
+    // cout << "simplifying adjacency list" << endl;
+    simple_edges.clear();
     initializeBalances();
     minFlow();
 }
 
 // getter function for the number of people
-set<string> AdjList::getPeople()
+unordered_set<string> AdjList::getPeople()
 {
     return people;
 }
@@ -126,7 +127,7 @@ void AdjList::printEdgesByWeight()
 // prints all the initial balances (top k creditors and debtors) after sorting by balance
 void AdjList::printInitialBalances(int k)
 {
-    auto elems = getLeaderboards();
+    auto elems = sortInitialBalances();
 
     cout << "These are the top " << k << " people who are owed money:" << endl;
     for (int i = 0; i < k; i++)
@@ -143,7 +144,7 @@ void AdjList::printInitialBalances(int k)
 }
 
 // getter function for sorted initial balances
-vector<pair<string, double>> AdjList::getLeaderboards()
+vector<pair<string, double>> AdjList::sortInitialBalances()
 {
     vector<pair<string, double>> elems(initial_balances.begin(), initial_balances.end());
     sort(elems.begin(), elems.end(), [](auto const &t1, auto const &t2)
@@ -211,8 +212,8 @@ void AdjList::minFlowHelper()
     string max_credits = maxIndex();
     string max_debits = minIndex();
 
-    balances[max_credits] = truncate(balances[max_credits]);
-    balances[max_debits] = truncate(balances[max_debits]);
+    // balances[max_credits] = truncate(balances[max_credits]);
+    // balances[max_debits] = truncate(balances[max_debits]);
 
     minimum = min(-balances[max_debits], balances[max_credits]);
     // Recursion terminate as either balances[max_credits] or balances[max_debits] becomes 0 or if the money transfered between is 0
@@ -235,9 +236,7 @@ void AdjList::minFlowHelper()
 void AdjList::minFlow()
 {
     // Calculates the net aggregate balances for each person
-    // cout << "Totals at Start:" << endl;
     calculateBalances();
-    // printAmounts(); // prints out all the amounts
     // Recursively lowers balances until all balances are 0
     minFlowHelper();
 }

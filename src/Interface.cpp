@@ -42,6 +42,11 @@ double printDensity()
     return (double)num_edges / (double)((double)num_people * ((double)num_people - 1));
 }
 
+double truncate(double x)
+{
+    return (int)(x * 100) / 100.0;
+}
+
 Interface::Interface(int width, int height, string title)
 {
     this->height = height;
@@ -89,17 +94,19 @@ void Interface::GenerateWindow()
                                 string line;
                                 ifstream file(filePath);
                                 pair<float, float> time_sums;
+                                int num_edges = 0;
                                 while (getline(file, line))
                                 {
                                     auto times = add(line);
                                     time_sums.first += times.first;
                                     time_sums.second += times.second;
+                                    num_edges++;
                                 }
                                 file.close();
 
-                                string read_edges_matrix = "Reading in 100K Edges for Matrix required " + to_string(time_sums.first) + " seconds.";
+                                string read_edges_matrix = "Reading in " + to_string(num_edges) + " Edges for Matrix required " + to_string(time_sums.first) + " seconds.";
                                 frame.newRow(read_edges_matrix);
-                                string read_edges_list = "Reading in 100K Edges for List required " + to_string(time_sums.second) + " seconds.";
+                                string read_edges_list = "Reading in " + to_string(num_edges) + " Edges for List required " + to_string(time_sums.second) + " seconds.";
                                 frame.newRow(read_edges_list);
                                 frame.newRow("File has been read!");
                             }
@@ -136,13 +143,15 @@ void Interface::GenerateWindow()
                                 t = clock() - t;
                                 string simplifyMatrix = "The Simplify Matrix operation took " + to_string(((float)t) / CLOCKS_PER_SEC) + " seconds.";
                                 frame.newRow(simplifyMatrix);
+                                frame.newRow("Simplification complete: New List has " + to_string(list.getSimpleEdges().size()) + " edges.");
                             }
 
                             if (item.first == "LeaderboardButton")
                             {
                                 int k = 5;
-                                vector<pair<string, double>> leaderboards = list.getLeaderboards();
-                                frame.newRow("These are the top " + to_string(k) + " people who are owed money:");
+                                vector<pair<string, double>> leaderboards = list.sortInitialBalances();
+                                string s = "These are the top " + to_string(k) + " people who are owed money:";
+                                frame.newRow(s);
                                 for (int i = 0; i < min(k, (int)leaderboards.size()); i++)
                                 {
                                     if (leaderboards[i].second > 0)
@@ -165,6 +174,7 @@ void Interface::GenerateWindow()
 
                             if (item.first == "Export")
                             {
+                                frame.newRow("Simplified Transactions:");
                                 auto results = list.getSimpleEdges();
                                 ofstream file("../text/exported_data.txt");
                                 for (auto edge : results)
