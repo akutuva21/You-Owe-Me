@@ -1,8 +1,7 @@
 CC = g++
-CFLAGS = 
+CFLAGS = -lsfml-graphics -lsfml-window
 
 TARGET = main
-#SOURCES := main.cpp List.cpp Matrix.cpp SolveMatrix.cpp
 SOURCES := $(wildcard *.cpp)
 all:
 	$(CC) $(CFLAGS) -o $(TARGET) $(SOURCES)

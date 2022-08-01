@@ -1,4 +1,4 @@
-/// Largely derived from https://www.geeksforgeeks.org/minimize-cash-flow-among-given-set-friends-borrowed-money/
+// Largely derived from https://www.geeksforgeeks.org/minimize-cash-flow-among-given-set-friends-borrowed-money/
 
 #include <iostream>
 #include <vector>
@@ -33,6 +33,7 @@ void test()
         list.pushback(get<0>(edge), get<1>(edge), get<2>(edge));
         matrix.pushback(get<0>(edge), get<1>(edge), get<2>(edge));
     }
+
     matrix.simplifyMatrix();
     matrix.printSimpleEdges();
 }
@@ -156,11 +157,9 @@ int main()
             {
                 auto results = list.getSimpleEdges();
                 ofstream file("./exported_data.txt");
-                file << "{";
                 for (auto edge : results) {
-                    file << "[" << get<0>(edge) << ", " << get<1>(edge) << ", " << get<2>(edge) << "]," << endl;
+                    file << "[\"" << get<0>(edge) << "\", \"" << get<1>(edge) << "\", " << get<2>(edge) << "]" << endl;
                 }
-                file << "}";
                 file.close();
                 break;
             }
