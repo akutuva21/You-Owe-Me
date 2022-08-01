@@ -1,28 +1,30 @@
 #include "../headers/Matrix.h"
 
+// returns the index of the person with the given name in the matrix
 int AdjMatrix::getIndexfromName(string name)
 {
     return people[name];
 }
 
+// returns the name of the person with the given index in the matrix
 string AdjMatrix::getNamefromIndex(int index)
 {
     return indices[index];
 }
 
+// returns the weight of the directed edge between two people in the matrix
 auto AdjMatrix::getEdge(string from, string to)
 {
     return matrix[people[from]][people[to]];
 }
 
+// adds an edge to the Adjacency Matrix
 void AdjMatrix::pushback(string from, string to, double val)
 {
-    vector<string> temp;
-    temp.push_back(from);
-    temp.push_back(to);
+    vector<string> temp {from, to};
     for (string person : temp)
     {
-        if (people.find(person) == people.end()) 
+        if (people.find(person) == people.end()) // if the person is not in the matrix
         {
             people[person] = num_ppl;
             indices[num_ppl] = person;
@@ -39,10 +41,11 @@ void AdjMatrix::pushback(string from, string to, double val)
         }
     }
 
-    matrix[people[from]][people[to]] += val;
-    num_edges++;
+    matrix[people[from]][people[to]] += val; // if edge already exists, add to it
+    num_edges++; // increments number of edges
 }
 
+// prints the contents of the Adjacency Matrix
 void AdjMatrix::printMatrix()
 {
     for (int i = 0; i < matrix.size(); i++)
@@ -55,12 +58,14 @@ void AdjMatrix::printMatrix()
     }
 }
 
+// sets all balances to be 0 for all people in the Adjacency Matrix
 void AdjMatrix::initalizeBalances()
 {
     balances = vector<double>(num_ppl, 0);
 }
 
-void AdjMatrix::printInitialBalances(int top_k)
+// prints the initial balances of all people in the Adjacency Matrix
+void AdjMatrix::printInitialBalances()
 {
     sort(initial_balances.begin(), initial_balances.end());
     for (int i = 0; i < initial_balances.size(); i++)
@@ -70,6 +75,7 @@ void AdjMatrix::printInitialBalances(int top_k)
     cout << endl;
 }
 
+// prints the balances of all people in the Adjacency Matrix
 void AdjMatrix::printBalances()
 {
     for (int i = 0; i < balances.size(); i++)
@@ -78,19 +84,22 @@ void AdjMatrix::printBalances()
     }
 }
 
+// driver code to simplify the matrix
 void AdjMatrix::simplifyMatrix()
 {
     cout << "\nSimplifying Matrix..." << endl;
     cout << "Goodbye, Mr. Anderson...\n" << endl;
     initalizeBalances();
-    minCashFlow();
+    minFlow();
 }
 
+// adds a simple edge based on the given parameters to the matrix
 void AdjMatrix::addSimpleEdge(int from, int to, double val)
 {
     simple_edges.push_back(make_tuple(getNamefromIndex(from), getNamefromIndex(to), val));
 }
 
+// prints all the simple edges in the matrix
 void AdjMatrix::printSimpleEdges()
 {
     for (auto i = simple_edges.begin(); i != simple_edges.end(); i++)
@@ -99,6 +108,7 @@ void AdjMatrix::printSimpleEdges()
     }
 }
 
+// returns the index of the individual owing the most money in the matrix
 int AdjMatrix::minIndex()
 {
     int min = 0;
@@ -111,7 +121,8 @@ int AdjMatrix::minIndex()
     }
     return min;
 }
- 
+
+// returns the index of the individual owed the most money in the matrix
 int AdjMatrix::maxIndex()
 {
     int max = 0;
@@ -125,32 +136,27 @@ int AdjMatrix::maxIndex()
     return max;
 }
 
+// calculates the aggregate balances for each person prior to simplification
 void AdjMatrix::calculateBalances()
 {
-    // Calculate the net amount to be paid to person 'p', and
-    // stores it in amount[p]. The value of amount[p] can be
-    // calculated by subtracting debts of 'p' from credits of 'p'
     for (int p = 0; p < matrix.size(); p++)
         for (int i = 0; i < matrix.size(); i++)
-            balances[p] += (matrix[i][p] -  matrix[p][i]);
+            balances[p] += (matrix[i][p] -  matrix[p][i]); // adding from people owed money and subtracting from the person owing money
 }
 
+// truncates a decimal to 2 decimal places
 double AdjMatrix::truncate(double val)
 {
     return (int)(val * 100) / 100.0;
 }
  
-// amount[p] indicates the net amount to be credited/debited to/from person 'p'
-// If amount[p] is positive, then i'th person will amount[i]
-// If amount[p] is negative, then i'th person will give  -amount[i]
-void AdjMatrix::minCashFlowRec()
+// recursive helper function to find the minimum cash flow required to make all balances 0
+// developed based on algorithm from https://www.geeksforgeeks.org/minimize-cash-flow-among-given-set-friends-borrowed-money/
+void AdjMatrix::minFlowHelper()
 {
     double minimum = -1;
-    // Find the indexes of minimum and maximum values in amount[]
-    // amount[maxCredit] indicates the maximum amount to be credited
-    // And amount[maxDebit] indicates the maximum amount to be debited
-    // There must be positive and negative values in amount[]
-    int maxCredit = maxIndex(), maxDebit = minIndex();
+    int maxCredit = maxIndex();
+    int maxDebit = minIndex();
  
     // truncates the value of amount[maxCredit] and amount[maxDebit] to 2 decimal places
     balances[maxCredit] = truncate(balances[maxCredit]);
@@ -158,6 +164,8 @@ void AdjMatrix::minCashFlowRec()
     
     // If both amounts are 0, then all amounts are settled
     minimum = min(truncate(-balances[maxDebit]), truncate(balances[maxCredit]));
+    
+    // Recursion terminate as either balances[max_credits] or balances[max_debits] becomes 0 or if the money transfered between is 0
     if ((balances[maxCredit] == 0 && balances[maxDebit] == 0) || (minimum == 0))
     {
         cout << "All amounts are settled" << endl;
@@ -165,23 +173,21 @@ void AdjMatrix::minCashFlowRec()
         return;
     }
  
-    // Determines the sign of how money is transfered
+    // The person owed the most money is paid and vice-versa
     balances[maxCredit] -= minimum;
     balances[maxDebit] += minimum;
     addSimpleEdge(maxDebit, maxCredit, minimum);
  
     // Recursion terminate as either amount[maxCredit] or amount[maxDebit] becomes 0
-    minCashFlowRec();
+    minFlowHelper();
 }
  
-// Given a set of persons as graph[] where graph[i][j] indicates
-// the amount that person i needs to pay person j, this function
-// finds and prints the minimum cash flow to settle all debts.
-void AdjMatrix::minCashFlow()
+// Finds and prints the minimum cash flow to settle all debts.
+void AdjMatrix::minFlow()
 { 
     // cout << "Totals at Start:" << endl;
-    // matrix.printAmounts();
-    // cout << "\n" << endl;
+    // matrix.printBalances();
     calculateBalances();
-    minCashFlowRec();
+    // Recursively lowers balances until all balances are 0
+    minFlowHelper();
 }

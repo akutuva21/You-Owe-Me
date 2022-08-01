@@ -6,3 +6,11 @@ scripts/3D_Network_Graph.html
 cmake*
 build
 CMakeLists.txt
+ProjectSettings.json
+slnx.sqlite
+.suo
+read.lock
+VSWorkspace.xml
+.vs/Project 3/FileContentIndex/22953c99-69d3-4a1f-812e-c29f8ae915e2.vsidx
+.vs/Project 3/v17/Browse.VC.db
+.vs/VSWorkspaceState.json
