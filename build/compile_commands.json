@@ -1,0 +1,37 @@
+[
+{
+  "directory": "C:/Users/poolt/Desktop/nibbles-Homework/build",
+  "command": "C:\\mingw32\\bin\\g++.exe  @CMakeFiles/nibbles.dir/includes_CXX.rsp -g -std=gnu++1z -o CMakeFiles\\nibbles.dir\\src\\main.cpp.obj -c C:\\Users\\poolt\\Desktop\\nibbles-Homework\\src\\main.cpp",
+  "file": "C:/Users/poolt/Desktop/nibbles-Homework/src/main.cpp"
+},
+{
+  "directory": "C:/Users/poolt/Desktop/nibbles-Homework/build",
+  "command": "C:\\mingw32\\bin\\g++.exe  @CMakeFiles/nibbles.dir/includes_CXX.rsp -g -std=gnu++1z -o CMakeFiles\\nibbles.dir\\src\\Interface.cpp.obj -c C:\\Users\\poolt\\Desktop\\nibbles-Homework\\src\\Interface.cpp",
+  "file": "C:/Users/poolt/Desktop/nibbles-Homework/src/Interface.cpp"
+},
+{
+  "directory": "C:/Users/poolt/Desktop/nibbles-Homework/build",
+  "command": "C:\\mingw32\\bin\\g++.exe  @CMakeFiles/nibbles.dir/includes_CXX.rsp -g -std=gnu++1z -o CMakeFiles\\nibbles.dir\\src\\TextBox.cpp.obj -c C:\\Users\\poolt\\Desktop\\nibbles-Homework\\src\\TextBox.cpp",
+  "file": "C:/Users/poolt/Desktop/nibbles-Homework/src/TextBox.cpp"
+},
+{
+  "directory": "C:/Users/poolt/Desktop/nibbles-Homework/build",
+  "command": "C:\\mingw32\\bin\\g++.exe  @CMakeFiles/nibbles.dir/includes_CXX.rsp -g -std=gnu++1z -o CMakeFiles\\nibbles.dir\\src\\ScrollFrame.cpp.obj -c C:\\Users\\poolt\\Desktop\\nibbles-Homework\\src\\ScrollFrame.cpp",
+  "file": "C:/Users/poolt/Desktop/nibbles-Homework/src/ScrollFrame.cpp"
+},
+{
+  "directory": "C:/Users/poolt/Desktop/nibbles-Homework/build",
+  "command": "C:\\mingw32\\bin\\g++.exe  @CMakeFiles/nibbles.dir/includes_CXX.rsp -g -std=gnu++1z -o CMakeFiles\\nibbles.dir\\src\\List.cpp.obj -c C:\\Users\\poolt\\Desktop\\nibbles-Homework\\src\\List.cpp",
+  "file": "C:/Users/poolt/Desktop/nibbles-Homework/src/List.cpp"
+},
+{
+  "directory": "C:/Users/poolt/Desktop/nibbles-Homework/build",
+  "command": "C:\\mingw32\\bin\\g++.exe  @CMakeFiles/nibbles.dir/includes_CXX.rsp -g -std=gnu++1z -o CMakeFiles\\nibbles.dir\\src\\Matrix.cpp.obj -c C:\\Users\\poolt\\Desktop\\nibbles-Homework\\src\\Matrix.cpp",
+  "file": "C:/Users/poolt/Desktop/nibbles-Homework/src/Matrix.cpp"
+},
+{
+  "directory": "C:/Users/poolt/Desktop/nibbles-Homework/build",
+  "command": "C:\\mingw32\\bin\\g++.exe  @CMakeFiles/nibbles.dir/includes_CXX.rsp -g -std=gnu++1z -o CMakeFiles\\nibbles.dir\\src\\TextureManager.cpp.obj -c C:\\Users\\poolt\\Desktop\\nibbles-Homework\\src\\TextureManager.cpp",
+  "file": "C:/Users/poolt/Desktop/nibbles-Homework/src/TextureManager.cpp"
+}
+]

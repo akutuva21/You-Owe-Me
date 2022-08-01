@@ -1,0 +1,3 @@
+C:/Users/poolt/Desktop/nibbles-Homework/build/CMakeFiles/nibbles.dir
+C:/Users/poolt/Desktop/nibbles-Homework/build/CMakeFiles/edit_cache.dir
+C:/Users/poolt/Desktop/nibbles-Homework/build/CMakeFiles/rebuild_cache.dir
