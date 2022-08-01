@@ -1,8 +1,8 @@
 CC = g++
-CFLAGS = -lsfml-graphics -lsfml-window
+CFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 
 TARGET = main
-SOURCES := $(wildcard *.cpp)
+SOURCES := $(wildcard src/*.cpp)
 all:
 	$(CC) $(CFLAGS) -o $(TARGET) $(SOURCES)
 clean:

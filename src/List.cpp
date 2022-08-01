@@ -1,4 +1,4 @@
-#include "List.h"
+#include "../headers/List.h"
 
 double AdjList::getEdge(string from, string to)
 {

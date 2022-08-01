@@ -1,4 +1,4 @@
-#include "Matrix.h"
+#include "../headers/Matrix.h"
 
 int AdjMatrix::getIndexfromName(string name)
 {
