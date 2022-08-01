@@ -4,9 +4,15 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <map>
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <ctime>
 
 #include "ScrollFrame.h"
 #include "TextureManager.h"
+#include "List.h"
+#include "Matrix.h"
 
 class Interface
 {

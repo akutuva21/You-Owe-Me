@@ -1,9 +1,7 @@
-#ifndef SCROLL_FRAME_H_
-#define SCROLL_FRAME_H_
-
 #include <SFML/Graphics.hpp>
 
 #include "TextBox.h"
+#pragma once
 
 class ScrollFrame
 {
@@ -12,7 +10,7 @@ class ScrollFrame
     sf::RectangleShape frame;
     sf::RectangleShape scrollBar;
     bool mouseDown;
-    vector<TextBox> rows;
+    std::vector<TextBox> rows;
 
 public:
     ScrollFrame();
@@ -20,10 +18,9 @@ public:
     void Scroll(sf::Vector2f worldPos);
     sf::RectangleShape getFrame();
     sf::RectangleShape getScrollBar();
+    std::vector<TextBox> &getRows();
     bool getMouseDown();
     void setScrollBar(sf::Vector2f worldPos);
     void setMouseDown(bool tf);
-    void setRow(string s, float ratio);
+    void setRow(std::string s, float ratio);
 };
-
-#endif // SCROLL_FRAME_H_

@@ -1,7 +1,5 @@
 #include "../headers/TextBox.h"
 
-#include <iostream>
-
 TextBox::TextBox()
 {
     message = "";
@@ -32,7 +30,7 @@ TextBox::TextBox(std::pair<int, int> posXY, std::pair<int, int> widthHeight, std
     // set string
     text.setString(message);
     // set font size
-    text.setCharacterSize(30);
+    text.setCharacterSize(24);
     // set color
     text.setFillColor(sf::Color::Black);
     // set text style
@@ -40,7 +38,7 @@ TextBox::TextBox(std::pair<int, int> posXY, std::pair<int, int> widthHeight, std
     // set position
     int boxHeight = box.getSize().y;
     int boxWidth = box.getSize().x;
-    text.setPosition(posXY.first + 5, posXY.second + boxHeight / 2 - 18);
+    text.setPosition(posXY.first + 5, posXY.second + boxHeight / 2 - 14);
 
     if (!editable && isButton)
     {
@@ -84,4 +82,9 @@ void TextBox::setClicked(bool tf)
 void TextBox::setEditable(bool tf)
 {
     editable = tf;
+}
+void TextBox::setBox(float x, float y)
+{
+    box.setPosition(x, y);
+    text.setPosition(x, y);
 }

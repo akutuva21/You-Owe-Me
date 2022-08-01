@@ -8,8 +8,8 @@
 #include <algorithm>
 #include <time.h>
 
-#include "../headers/List.h"
-#include "../headers/Matrix.h"
+// #include "../headers/List.h"
+// #include "../headers/Matrix.h"
 
 #include "../headers/Interface.h"
 
@@ -17,60 +17,60 @@ using namespace std;
 
 typedef tuple<string, string, double> edge;
 
-AdjList list;
-AdjMatrix matrix;
+//AdjList list;
+//AdjMatrix matrix;
 
-void test()
-{
-    vector<edge> edges;
-    edges.push_back(make_tuple("jonathan", "prayuj", 10.37));
-    edges.push_back(make_tuple("prayuj", "achyudhan", 20.34));
-    edges.push_back(make_tuple("achyudhan", "jonathan", 5.34));
-    edges.push_back(make_tuple("prayuj", "jonathan", 100.33));
-    edges.push_back(make_tuple("bob", "achyudhan", 10.12));
-    edges.push_back(make_tuple("achyudhan", "joe", 25.45));
+// void test()
+// {
+//     vector<edge> edges;
+//     edges.push_back(make_tuple("jonathan", "prayuj", 10.37));
+//     edges.push_back(make_tuple("prayuj", "achyudhan", 20.34));
+//     edges.push_back(make_tuple("achyudhan", "jonathan", 5.34));
+//     edges.push_back(make_tuple("prayuj", "jonathan", 100.33));
+//     edges.push_back(make_tuple("bob", "achyudhan", 10.12));
+//     edges.push_back(make_tuple("achyudhan", "joe", 25.45));
 
-    for (auto edge : edges)
-    {
-        list.pushback(get<0>(edge), get<1>(edge), get<2>(edge));
-        matrix.pushback(get<0>(edge), get<1>(edge), get<2>(edge));
-    }
+//     for (auto edge : edges)
+//     {
+//         list.pushback(get<0>(edge), get<1>(edge), get<2>(edge));
+//         matrix.pushback(get<0>(edge), get<1>(edge), get<2>(edge));
+//     }
 
-    matrix.simplifyMatrix();
-    matrix.printSimpleEdges();
-}
+//     matrix.simplifyMatrix();
+//     matrix.printSimpleEdges();
+// }
 
-pair<float, float> add(string line) 
-{
-    pair<float, float> times;
-    size_t pos;
-    size_t pos2;
-    pos = line.find(" ");
-    string from = line.substr(0, pos);
-    pos2 = line.find(" ", pos + 1);
-    string to = line.substr(pos + 1, pos2 - pos - 1);
-    double amount = stod(line.substr(pos2 + 1));
+// pair<float, float> add(string line) 
+// {
+//     pair<float, float> times;
+//     size_t pos;
+//     size_t pos2;
+//     pos = line.find(" ");
+//     string from = line.substr(0, pos);
+//     pos2 = line.find(" ", pos + 1);
+//     string to = line.substr(pos + 1, pos2 - pos - 1);
+//     double amount = stod(line.substr(pos2 + 1));
 
-    clock_t t;
-    t = clock();
-    matrix.pushback(from, to, amount);
-    t = clock() - t;
-    times.first = ((float) t) / CLOCKS_PER_SEC;
-    t = clock();
-    list.pushback(from, to, amount);
-    t = clock() - t;
-    times.second = ((float) t) / CLOCKS_PER_SEC;
+//     clock_t t;
+//     t = clock();
+//     matrix.pushback(from, to, amount);
+//     t = clock() - t;
+//     times.first = ((float) t) / CLOCKS_PER_SEC;
+//     t = clock();
+//     list.pushback(from, to, amount);
+//     t = clock() - t;
+//     times.second = ((float) t) / CLOCKS_PER_SEC;
 
-    return times;
-}
+//     return times;
+// }
 
-double printDensity()
-{
-    int num_people = matrix.getMatrix().size();
-    int num_edges = matrix.getNumEdges();
+// double printDensity()
+// {
+//     int num_people = matrix.getMatrix().size();
+//     int num_edges = matrix.getNumEdges();
 
-    return (double)num_edges / (double)((double)num_people * ((double)num_people - 1));
-}
+//     return (double)num_edges / (double)((double)num_people * ((double)num_people - 1));
+// }
 
 // int main()
 // {
@@ -193,8 +193,8 @@ double printDensity()
 //     return 0;
 // }
 
-const int WINDOW_HEIGHT = 1250;
-const int WINDOW_WIDTH = 1250;
+const int WINDOW_HEIGHT = 750;
+const int WINDOW_WIDTH = 1000;
 void GenerateInterface()
 {
     // Load Font

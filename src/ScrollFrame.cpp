@@ -14,7 +14,7 @@ ScrollFrame::ScrollFrame(float w, float h, std::vector<TextBox> &obj)
     frame.setPosition(sf::Vector2f(0, 800));
     frame.setFillColor(sf::Color(255, 255, 255, 100));
     scrollBar.setSize(sf::Vector2f(20, 50));
-    scrollBar.setPosition(sf::Vector2f(1230, 800));
+    scrollBar.setPosition(sf::Vector2f(710, 400));
     scrollBar.setFillColor(sf::Color(0, 0, 0, 100));
     rows = obj;
 }
@@ -32,12 +32,16 @@ bool ScrollFrame::getMouseDown()
     return mouseDown;
 }
 
+std::vector<TextBox> &ScrollFrame::getRows()
+{
+    return rows;
+}
 void ScrollFrame::setScrollBar(sf::Vector2f worldPos)
 {
     float xPos = scrollBar.getPosition().x;
-    if (xPos < 800)
+    if (xPos < 400)
     {
-        xPos = 800;
+        xPos = 400;
     }
     scrollBar.setPosition(xPos, worldPos.y);
 }
@@ -49,12 +53,13 @@ void ScrollFrame::setMouseDown(bool tf)
 void ScrollFrame::Scroll(sf::Vector2f worldPos)
 {
     float yPos = worldPos.y;
-    float scrollRatio = (yPos - 800) / 400;
-    if (yPos < 800)
-        yPos = 800;
-    if (yPos > 1200)
-        yPos = 1200;
+    if (yPos < 400)
+        yPos = 400;
+    if (yPos > 710)
+        yPos = 710;
+    float scrollRatio = (yPos - 400) / 10;
     scrollBar.setPosition(scrollBar.getPosition().x, yPos);
+    setRow("im delusion", scrollRatio);
 }
 
 void ScrollFrame::setRow(std::string s, float ratio)
@@ -62,6 +67,6 @@ void ScrollFrame::setRow(std::string s, float ratio)
     for (int i = 0; i < rows.size(); i++)
     {
         rows[i].setText(s);
-        rows[i].getBox().setPosition(sf::Vector2f(rows[i].getBox().getPosition().x, 800 + ratio * 400));
+        rows[i].setBox(100, 400 + ratio * 310 - i * 30);
     }
 }

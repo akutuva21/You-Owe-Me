@@ -5,8 +5,6 @@
 #include <algorithm>
 #pragma once
 
-// TO DO: add a function to track how much is paid to each (maybe could modify existing graph)
-
 using namespace std;
 
 class AdjMatrix

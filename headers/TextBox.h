@@ -1,8 +1,8 @@
-#ifndef TEXTBOX_H_
-#define TEXTBOX_H_
-
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <iostream>
+
+#pragma once
 
 using namespace std;
 
@@ -10,14 +10,14 @@ class TextBox
 {
     sf::RectangleShape box;
     sf::Text text;
-    string message;
+    std::string message;
     bool editable;
     bool isButton;
     bool clicked = false;
 
 public:
     TextBox();
-    TextBox(pair<int, int> widthHeight, pair<int, int> posXY, std::string message, const sf::Font &font, int outline = 0, bool editable = true, bool isB = false);
+    TextBox(std::pair<int, int> widthHeight, std::pair<int, int> posXY, std::string message, const sf::Font &font, int outline = 0, bool editable = true, bool isB = false);
     void setFontType(sf::Font &font);
 
     sf::RectangleShape &getBox();
@@ -25,9 +25,8 @@ public:
     bool &getClicked();
     bool &getIsButton();
     bool &getEditable();
-    void setText(string s);
+    void setText(std::string s);
+    void setBox(float x, float y);
     void setClicked(bool tf);
     void setEditable(bool tf);
 };
-
-#endif // TEXTBOX_H_

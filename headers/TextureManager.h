@@ -1,9 +1,7 @@
-#ifndef TEXTUREMANAGER_H_
-#define TEXTUREMANAGER_H_
-
 #include <SFML/Graphics.hpp>
 #include <unordered_map>
 #include <string>
+#pragma once
 
 using namespace std;
 
@@ -17,5 +15,3 @@ public:
     static sf::Texture &GetTexture(string textureName);
     static void Clear();
 };
-
-#endif // TEXTUREMANAGER_H_
