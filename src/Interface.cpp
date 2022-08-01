@@ -70,10 +70,6 @@ void Interface::GenerateWindow()
                 if (frame.getScrollBar().getGlobalBounds().contains(worldPos))
                     frame.setMouseDown(true);
             }
-            if (event.type == sf::Event::MouseWheelScrolled)
-            {
-                frame.setMouseDown(true);
-            }
             if (event.type == sf::Event::MouseButtonReleased)
                 frame.setMouseDown(false);
 
@@ -166,7 +162,7 @@ void Interface::GenerateWindow()
                             if (item.first == "Export")
                             {
                                 auto results = list.getSimpleEdges();
-                                ofstream file("../exported_data.txt");
+                                ofstream file("./text/exported_data.txt");
                                 for (auto edge : results)
                                 {
                                     file << "[\"" << get<0>(edge) << "\", \"" << get<1>(edge) << "\", " << get<2>(edge) << "]" << endl;
