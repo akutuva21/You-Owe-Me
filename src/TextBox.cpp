@@ -1,10 +1,12 @@
+#include <iostream>
+
 #include "../headers/TextBox.h"
 
 TextBox::TextBox()
 {
     message = "";
 }
-TextBox::TextBox(std::pair<int, int> posXY, std::pair<int, int> widthHeight, std::string message, const sf::Font &font, int outline, bool edit, bool isB)
+TextBox::TextBox(pair<int, int> posXY, pair<int, int> widthHeight, string message, const sf::Font &font, int outline, bool edit, bool isB)
 {
     editable = edit;
     isButton = isB;
@@ -69,7 +71,7 @@ bool &TextBox::getEditable()
 {
     return editable;
 }
-void TextBox::setText(std::string s)
+void TextBox::setText(string s)
 {
     text.setString(s);
 }

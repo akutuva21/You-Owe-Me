@@ -2,10 +2,11 @@
 
 double AdjList::getEdge(string from, string to)
 {
-    vector<Edge*> edges = list[from];
-    for (Edge* edge : edges)
+    vector<Edge *> edges = list[from];
+    for (Edge *edge : edges)
     {
-        if (edge->first == to) return edge->second;
+        if (edge->first == to)
+            return edge->second;
     }
     return 0;
 }
@@ -13,16 +14,16 @@ double AdjList::getEdge(string from, string to)
 void AdjList::pushback(string from, string to, double val)
 {
     // Either appends from at the end of to if to LL exists or creates new linked list, setting to as the head
-    Edge* edge = new Edge(to, val);
-    if (list.find(from) == list.end()) 
+    Edge *edge = new Edge(to, val);
+    if (list.find(from) == list.end())
     {
-        vector<Edge*> edges = {edge};
+        vector<Edge *> edges = {edge};
         list[from] = edges;
     }
     else
     {
         bool found = false;
-        for (Edge* edge : list[from])
+        for (Edge *edge : list[from])
         {
             if (edge->first == to)
             {
@@ -30,7 +31,8 @@ void AdjList::pushback(string from, string to, double val)
                 found = true;
             }
         }
-        if (!found) list[from].push_back(edge);
+        if (!found)
+            list[from].push_back(edge);
     }
     people.insert(from); // too lazy to figure this out so appending regardless of whether it's already in there
     people.insert(to);
@@ -42,7 +44,7 @@ void AdjList::printList()
     for (auto i = list.begin(); i != list.end(); i++)
     {
         cout << i->first << ": " << endl;
-        for (Edge* edge : i->second)
+        for (Edge *edge : i->second)
         {
             cout << edge->first << "," << edge->second << endl;
         }
@@ -103,19 +105,17 @@ vector<tuple<string, string, double>> AdjList::getSimpleEdges()
 
 void AdjList::printEdgesByWeight()
 {
-    sort(simple_edges.begin(), simple_edges.end(), [](auto const &t1, auto const &t2) {
-        return get<2>(t1) > get<2>(t2);
-    });
-    
+    sort(simple_edges.begin(), simple_edges.end(), [](auto const &t1, auto const &t2)
+         { return get<2>(t1) > get<2>(t2); });
+
     printSimpleEdges();
 }
 
 void AdjList::printInitialBalances(int k)
 {
     vector<pair<string, double>> elems(initial_balances.begin(), initial_balances.end());
-    sort(elems.begin(), elems.end(), [](auto const& t1, auto const& t2) {
-        return t1.second > t2.second;
-    }); 
+    sort(elems.begin(), elems.end(), [](auto const &t1, auto const &t2)
+         { return t1.second > t2.second; });
 
     cout << "These are the top " << k << " people who are owed money:" << endl;
     for (int i = 0; i < k; i++)
@@ -129,6 +129,14 @@ void AdjList::printInitialBalances(int k)
     {
         cout << elems[i].first << " owes $" << 0 - elems[i].second << endl;
     }
+}
+
+vector<pair<string, double>> AdjList::getLeaderboards()
+{
+    vector<pair<string, double>> elems(initial_balances.begin(), initial_balances.end());
+    sort(elems.begin(), elems.end(), [](auto const &t1, auto const &t2)
+         { return t1.second > t2.second; });
+    return elems;
 }
 
 string AdjList::minIndex()
@@ -145,7 +153,7 @@ string AdjList::minIndex()
     }
     return min;
 }
- 
+
 string AdjList::maxIndex()
 {
     string max = "";
@@ -191,7 +199,7 @@ void AdjList::minCashFlowRec()
     // There must be positive and negative values in balances[]
     string max_credits = maxIndex();
     string max_debits = minIndex();
- 
+
     // If both amounts are 0, then all amounts are settled
     balances[max_credits] = truncate(balances[max_credits]);
     balances[max_debits] = truncate(balances[max_debits]);
@@ -202,17 +210,17 @@ void AdjList::minCashFlowRec()
         cout << "All amounts are settled" << endl;
         return;
     }
- 
+
     // Determines the sign of how money is transfered
     balances[max_credits] -= minimum;
     balances[max_debits] += minimum;
-     
+
     addSimpleEdge(max_debits, max_credits, minimum);
- 
+
     // Recursion terminate as either balances[max_credits] or balances[max_debits] becomes 0
     minCashFlowRec();
 }
- 
+
 // Given a set of persons as graph[] where graph[i][j] indicates
 // the balances that person i needs to pay person j, this function
 // finds and prints the minimum cash flow to settle all debts.
@@ -232,9 +240,9 @@ AdjList::~AdjList()
 {
     for (auto i = list.begin(); i != list.end(); i++)
     {
-        for (Edge* edge : i->second)
+        for (Edge *edge : i->second)
         {
             delete edge;
         }
-    } 
+    }
 }

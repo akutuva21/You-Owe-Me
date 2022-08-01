@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <cmath>
 #include <climits>
+
 #pragma once
 
 using namespace std;
@@ -13,17 +14,18 @@ using namespace std;
 class AdjList
 {
     typedef pair<string, double> Edge;
-    
+
     private:
         // Achyudhan : (people : [("jonathan", 10), ("prayuj", 15)])
-        unordered_map<string, vector<Edge*>> list;
+        unordered_map<string, vector<Edge *>> list;
         unordered_map<string, double> balances;
         unordered_map<string, double> initial_balances;
         int num_edges = 0;
         set<string> people; // assumes all people have different names
         vector<tuple<string, string, double>> simple_edges;
+
     public:
-        AdjList() {};
+        AdjList(){};
         ~AdjList();
 
         auto getList() { return list; }
@@ -31,6 +33,7 @@ class AdjList
         vector<tuple<string, string, double>> getSimpleEdges();
         unordered_map<string, double> getBalances();
         set<string> getPeople();
+        vector<pair<string, double>> getLeaderboards();
 
         void pushback(string from, string to, double val);
         void addSimpleEdge(string from, string to, double val);

@@ -1,20 +1,22 @@
-#include "../headers/ScrollFrame.h"
-
 #include <vector>
 
-ScrollFrame::ScrollFrame()
+#include "../headers/ScrollFrame.h"
+
+using namespace std;
+
+ScrollFrame::ScrollFrame() {}
+
+ScrollFrame::ScrollFrame(float w, float h, vector<TextBox> &obj)
 {
-}
-ScrollFrame::ScrollFrame(float w, float h, std::vector<TextBox> &obj)
-{
+    font.loadFromFile("../assets/fonts/Segoe_UI.ttf");
     width = w;
     height = h;
     mouseDown = false;
     frame.setSize(sf::Vector2f(w, h));
-    frame.setPosition(sf::Vector2f(0, 800));
+    frame.setPosition(sf::Vector2f(0, 550));
     frame.setFillColor(sf::Color(255, 255, 255, 100));
-    scrollBar.setSize(sf::Vector2f(20, 50));
-    scrollBar.setPosition(sf::Vector2f(710, 400));
+    scrollBar.setSize(sf::Vector2f(20, 300));
+    scrollBar.setPosition(sf::Vector2f(980, 550));
     scrollBar.setFillColor(sf::Color(0, 0, 0, 100));
     rows = obj;
 }
@@ -32,18 +34,16 @@ bool ScrollFrame::getMouseDown()
     return mouseDown;
 }
 
-std::vector<TextBox> &ScrollFrame::getRows()
+vector<TextBox> &ScrollFrame::getRows()
 {
     return rows;
 }
-void ScrollFrame::setScrollBar(sf::Vector2f worldPos)
+
+void ScrollFrame::setScrollBar()
 {
-    float xPos = scrollBar.getPosition().x;
-    if (xPos < 400)
-    {
-        xPos = 400;
-    }
-    scrollBar.setPosition(xPos, worldPos.y);
+    int frameSize = rows.size() * 40;
+    if (frameSize >= 300)
+        scrollBar.setSize(sf::Vector2f(20, 300 * 300 / frameSize));
 }
 
 void ScrollFrame::setMouseDown(bool tf)
@@ -53,20 +53,34 @@ void ScrollFrame::setMouseDown(bool tf)
 void ScrollFrame::Scroll(sf::Vector2f worldPos)
 {
     float yPos = worldPos.y;
-    if (yPos < 400)
-        yPos = 400;
-    if (yPos > 710)
-        yPos = 710;
-    float scrollRatio = (yPos - 400) / 10;
+    if (yPos < 550)
+        yPos = 550;
+    if (yPos > 850)
+        yPos = 850;
+    float scrollRatio = (yPos - 550.0f) / 300.0f;
     scrollBar.setPosition(scrollBar.getPosition().x, yPos);
-    setRow("im delusion", scrollRatio);
+    setRow(scrollRatio);
 }
 
-void ScrollFrame::setRow(std::string s, float ratio)
+void ScrollFrame::setRow(float ratio)
 {
     for (int i = 0; i < rows.size(); i++)
-    {
-        rows[i].setText(s);
-        rows[i].setBox(100, 400 + ratio * 310 - i * 30);
-    }
+        rows[i].setBox(50, 550 + 40 * (i - (ratio * rows.size())));
 }
+
+void ScrollFrame::newRow(string s)
+{
+    TextBox text(make_pair(50, 550 + rows.size() * 40), make_pair(750, 30), s, font, 3);
+    rows.push_back(text);
+}
+
+/*
+    size_t pos;
+    size_t pos2;
+    pos = line.find(" ");
+    string from = line.substr(0, pos);
+    pos2 = line.find(" ", pos + 1);
+    string to = line.substr(pos + 1, pos2 - pos - 1);
+    double amount = stod(line.substr(pos2 + 1));
+
+*/

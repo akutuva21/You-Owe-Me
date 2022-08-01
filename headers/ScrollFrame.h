@@ -1,7 +1,11 @@
 #include <SFML/Graphics.hpp>
+#include <string>
 
 #include "TextBox.h"
+
 #pragma once
+
+using namespace std;
 
 class ScrollFrame
 {
@@ -13,14 +17,16 @@ class ScrollFrame
     std::vector<TextBox> rows;
 
 public:
+    sf::Font font;
     ScrollFrame();
     ScrollFrame(float height, float width, std::vector<TextBox> &obj);
     void Scroll(sf::Vector2f worldPos);
     sf::RectangleShape getFrame();
     sf::RectangleShape getScrollBar();
-    std::vector<TextBox> &getRows();
+    vector<TextBox> &getRows();
     bool getMouseDown();
-    void setScrollBar(sf::Vector2f worldPos);
+    void setScrollBar();
     void setMouseDown(bool tf);
-    void setRow(std::string s, float ratio);
+    void setRow(float ratio);
+    void newRow(string s);
 };
