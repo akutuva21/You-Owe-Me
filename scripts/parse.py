@@ -1,7 +1,7 @@
 import json
 
-exported_data = open('./exported_data.txt', 'r')
-exported_json = open('./exported_data.json', 'w')
+exported_data = open('../text/exported_data.txt', 'r')
+exported_json = open('../text/exported_data.json', 'w')
 data = exported_data.readlines()
 
 people = {}

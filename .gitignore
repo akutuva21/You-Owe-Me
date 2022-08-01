@@ -2,6 +2,7 @@ main.exe
 main
 .vscode
 text/3D_Network_Graph.html
+scripts/3D_Network_Graph.html
 cmake*
 build
 CMakeLists.txt

@@ -1,7 +1,7 @@
 import names
 import random
 
-generatedFile = open('./hugetransactions.txt', 'w')
+generatedFile = open('../text/hugetransactions.txt', 'w')
 
 names_list = []
 people_totals = {}

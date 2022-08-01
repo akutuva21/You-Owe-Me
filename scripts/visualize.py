@@ -10,7 +10,7 @@ import plotly.graph_objs as go
 
 data = []
 
-data_file = open('./exported_data.json')
+data_file = open('../text/exported_data.json')
 data_raw = str(data_file.readlines())
 data_raw = data_raw[2:len(data_raw)-2]
 data = json.loads(data_raw)

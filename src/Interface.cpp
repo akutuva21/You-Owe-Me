@@ -85,6 +85,7 @@ void Interface::GenerateWindow()
                             if (item.first == "ImportButton")
                             {
                                 string filePath = textBoxes["Import"].getText().getString();
+                                textBoxes["Import"].setText("");
                                 string line;
                                 ifstream file(filePath);
                                 pair<float, float> time_sums;
@@ -106,6 +107,9 @@ void Interface::GenerateWindow()
                             if (item.first == "AddButton")
                             {
                                 string input = textBoxes["AddEdge1"].getText().getString() + " " + textBoxes["AddEdge2"].getText().getString() + " " + textBoxes["AddEdgeAmount"].getText().getString();
+                                textBoxes["AddEdge1"].setText("");
+                                textBoxes["AddEdge2"].setText("");
+                                textBoxes["AddEdgeAmount"].setText("");
                                 try
                                 {
                                     pair<float, float> times = add(input);
@@ -162,7 +166,7 @@ void Interface::GenerateWindow()
                             if (item.first == "Export")
                             {
                                 auto results = list.getSimpleEdges();
-                                ofstream file("./text/exported_data.txt");
+                                ofstream file("../text/exported_data.txt");
                                 for (auto edge : results)
                                 {
                                     file << "[\"" << get<0>(edge) << "\", \"" << get<1>(edge) << "\", " << get<2>(edge) << "]" << endl;
@@ -171,6 +175,8 @@ void Interface::GenerateWindow()
                                 }
 
                                 file.close();
+                                system("C:/Windows/py.exe ../scripts/parse.py");
+                                system("C:/Windows/py.exe ../scripts/visualize.py");
                             }
                         }
                         else if (textBoxes[item.first].getBox().getGlobalBounds().contains(worldPos))
